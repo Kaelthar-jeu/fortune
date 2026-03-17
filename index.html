@@ -950,6 +950,37 @@
           <span class="stats-bar-val" id="val-reseau">10</span>
         </div>
       </div>
+
+      <!-- Panneau banque -->
+      <div style="margin-top:20px;border-top:1px solid rgba(201,168,76,0.15);padding-top:16px;">
+        <div class="assets-title">Situation bancaire</div>
+        <div style="display:flex;flex-direction:column;gap:8px;margin-top:10px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <span style="font-family:var(--mono,monospace);font-size:10px;color:var(--text-dim,#8a8a7a);text-transform:uppercase;letter-spacing:1px;">Capital liquide</span>
+            <span style="font-family:var(--mono,monospace);font-size:13px;font-weight:700;color:var(--green,#2ecc71);" id="bank-capital">0 €</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <span style="font-family:var(--mono,monospace);font-size:10px;color:var(--text-dim,#8a8a7a);text-transform:uppercase;letter-spacing:1px;">Revenus mensuels</span>
+            <span style="font-family:var(--mono,monospace);font-size:13px;font-weight:700;color:var(--white,#f8f6f0);" id="bank-income">0 €</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <span style="font-family:var(--mono,monospace);font-size:10px;color:var(--text-dim,#8a8a7a);text-transform:uppercase;letter-spacing:1px;">Patrimoine net</span>
+            <span style="font-family:var(--mono,monospace);font-size:13px;font-weight:700;color:var(--gold,#c9a84c);" id="bank-wealth">0 €</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <span style="font-family:var(--mono,monospace);font-size:10px;color:var(--text-dim,#8a8a7a);text-transform:uppercase;letter-spacing:1px;">Dettes totales</span>
+            <span style="font-family:var(--mono,monospace);font-size:13px;font-weight:700;color:var(--red,#e74c3c);" id="bank-dettes">0 €</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:4px;padding-top:8px;border-top:1px solid rgba(255,255,255,0.06);">
+            <span style="font-family:var(--mono,monospace);font-size:10px;color:var(--text-dim,#8a8a7a);text-transform:uppercase;letter-spacing:1px;">Score de crédit</span>
+            <span style="font-family:var(--mono,monospace);font-size:13px;font-weight:700;" id="bank-credit">650</span>
+          </div>
+          <div style="height:4px;background:var(--navy-light,#1a3356);border-radius:2px;margin-top:2px;">
+            <div id="bank-credit-bar" style="height:100%;border-radius:2px;background:var(--gold,#c9a84c);width:45%;transition:width 0.6s ease;"></div>
+          </div>
+          <div style="font-family:var(--mono,monospace);font-size:10px;color:var(--text-dim,#8a8a7a);text-align:right;" id="bank-credit-label">Correct</div>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -1050,6 +1081,7 @@ let G = {
   income: 0,
   wealth: 0,
   dettes: 0,
+  scoreCredit: 650,
   // Stats vie
   sante: 80,
   bonheur: 70,
@@ -1134,6 +1166,32 @@ function updateHUD() {
   document.getElementById('stat-capital').textContent = formatMoney(G.capital);
   document.getElementById('stat-income').textContent = formatMoney(G.income) + '/m';
   document.getElementById('stat-wealth').textContent = formatMoney(G.wealth);
+
+  // Panneau banque
+  const bc = document.getElementById('bank-capital');
+  const bi = document.getElementById('bank-income');
+  const bw = document.getElementById('bank-wealth');
+  const bd = document.getElementById('bank-dettes');
+  const bcr = document.getElementById('bank-credit');
+  const bcrBar = document.getElementById('bank-credit-bar');
+  const bcrLabel = document.getElementById('bank-credit-label');
+  if(bc) bc.textContent = formatMoney(G.capital);
+  if(bi) bi.textContent = formatMoney(G.income) + ' /mois';
+  if(bw) bw.textContent = formatMoney(G.wealth);
+  if(bd) {
+    bd.textContent = G.dettes > 0 ? '- ' + formatMoney(G.dettes) : '0 €';
+    bd.style.color = G.dettes > 0 ? 'var(--red,#e74c3c)' : 'var(--green,#2ecc71)';
+  }
+  if(bcr) bcr.textContent = G.scoreCredit || 650;
+  if(bcrBar) {
+    const sc = G.scoreCredit || 650;
+    bcrBar.style.width = Math.round((sc / 850) * 100) + '%';
+    bcrBar.style.background = sc >= 750 ? 'var(--green,#2ecc71)' : sc >= 650 ? 'var(--gold,#c9a84c)' : 'var(--red,#e74c3c)';
+  }
+  if(bcrLabel) {
+    const sc = G.scoreCredit || 650;
+    bcrLabel.textContent = sc >= 750 ? 'Excellent' : sc >= 700 ? 'Bon' : sc >= 650 ? 'Correct' : sc >= 580 ? 'Faible' : 'Mauvais';
+  }
   document.getElementById('temporal-stamp').textContent = G.season + ' ' + G.year + ' — ' + G.age + ' ans';
 
   // Counter
@@ -1294,6 +1352,7 @@ function parseAndApplyResponse(text) {
     if (s.reputation !== undefined) G.reputation = Math.max(0, Math.min(100, s.reputation));
     if (s.reseau !== undefined) G.reseau = Math.max(0, Math.min(100, s.reseau));
     if (s.dettes !== undefined) G.dettes = s.dettes;
+    if (s.scoreCredit !== undefined) G.scoreCredit = s.scoreCredit;
     if (s.newAsset) G.assets.push(s.newAsset);
     if (s.removeAsset) G.assets = G.assets.filter(a => a !== s.removeAsset);
     if (s.monthsAdvanced) advanceTime(s.monthsAdvanced);
@@ -1356,6 +1415,7 @@ IDENTITÉ DU JOUEUR :
 - Revenus mensuels : ${formatMoney(G.income)}
 - Patrimoine net : ${formatMoney(G.wealth)}
 - Dettes : ${formatMoney(G.dettes)}
+- Score de crédit : ${G.scoreCredit || 650}/850
 - Actifs et entreprises : ${G.assets.length > 0 ? G.assets.join(', ') : 'aucun'}
 - Santé : ${G.sante}/100, Bonheur : ${G.bonheur}/100, Réputation : ${G.reputation}/100, Réseau : ${G.reseau}/100
 
@@ -1374,7 +1434,7 @@ MOTEUR LITTÉRAIRE : Précision financière de Michael Lewis (l'argent comme ave
 
 FORMAT DE RÉPONSE OBLIGATOIRE :
 Écris d'abord le texte narratif (3-5 paragraphes, vivants et précis), puis termine TOUJOURS par un objet JSON sur une seule ligne :
-{"choices":["Choix 1","Choix 2","Choix 3","Choix 4"],"stats":{"capital":NOUVEAU_CAPITAL,"income":NOUVEAU_REVENU_MENSUEL,"wealth":NOUVEAU_PATRIMOINE,"sante":NOUVELLE_SANTE,"bonheur":NOUVEAU_BONHEUR,"reputation":NOUVELLE_REPUTATION,"reseau":NOUVEAU_RESEAU,"dettes":NOUVELLES_DETTES,"monthsAdvanced":MOIS_ECOULES,"newAsset":"NOM_ACTIF_ACQUIS_OU_null","removeAsset":"NOM_ACTIF_VENDU_OU_null"}}
+{"choices":["Choix 1","Choix 2","Choix 3","Choix 4"],"stats":{"capital":NOUVEAU_CAPITAL,"income":NOUVEAU_REVENU_MENSUEL,"wealth":NOUVEAU_PATRIMOINE,"sante":NOUVELLE_SANTE,"bonheur":NOUVEAU_BONHEUR,"reputation":NOUVELLE_REPUTATION,"reseau":NOUVEAU_RESEAU,"dettes":NOUVELLES_DETTES,"scoreCredit":NOUVEAU_SCORE_CREDIT_OU_null,"monthsAdvanced":MOIS_ECOULES,"newAsset":"NOM_ACTIF_ACQUIS_OU_null","removeAsset":"NOM_ACTIF_VENDU_OU_null"}}
 
 Les 4 choix doivent être des décisions réelles, concrètes, situées dans le contexte actuel. Pas de choix génériques.`;
 }
