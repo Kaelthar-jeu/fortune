@@ -902,6 +902,10 @@
           <span class="stat-chip-value" id="stat-season">Printemps</span>
         </div>
         <div class="stat-chip">
+          <span class="stat-chip-label">Semaine</span>
+          <span class="stat-chip-value" id="stat-week">S1</span>
+        </div>
+        <div class="stat-chip">
           <span class="stat-chip-label">Capital</span>
           <span class="stat-chip-value green" id="stat-capital">0 €</span>
         </div>
@@ -924,6 +928,25 @@
   <!-- Panel actifs -->
   <div id="assets-panel">
     <div class="assets-inner">
+      <!-- Repère temporel dans le panneau -->
+      <div style="display:flex;gap:16px;flex-wrap:wrap;margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid rgba(201,168,76,0.15);">
+        <div style="display:flex;flex-direction:column;gap:2px;">
+          <span style="font-family:var(--mono,monospace);font-size:9px;letter-spacing:2px;color:var(--text-dim,#8a8a7a);text-transform:uppercase;">Semaine</span>
+          <span style="font-family:var(--mono,monospace);font-size:14px;font-weight:700;color:var(--gold,#c9a84c);" id="panel-week">S1</span>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:2px;">
+          <span style="font-family:var(--mono,monospace);font-size:9px;letter-spacing:2px;color:var(--text-dim,#8a8a7a);text-transform:uppercase;">Saison</span>
+          <span style="font-family:var(--mono,monospace);font-size:14px;font-weight:700;color:var(--white,#f8f6f0);" id="panel-season">Printemps</span>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:2px;">
+          <span style="font-family:var(--mono,monospace);font-size:9px;letter-spacing:2px;color:var(--text-dim,#8a8a7a);text-transform:uppercase;">Année</span>
+          <span style="font-family:var(--mono,monospace);font-size:14px;font-weight:700;color:var(--white,#f8f6f0);" id="panel-year">2025</span>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:2px;">
+          <span style="font-family:var(--mono,monospace);font-size:9px;letter-spacing:2px;color:var(--text-dim,#8a8a7a);text-transform:uppercase;">Ville</span>
+          <span style="font-family:var(--mono,monospace);font-size:14px;font-weight:700;color:var(--white,#f8f6f0);" id="panel-city">—</span>
+        </div>
+      </div>
       <div class="assets-title">Mes actifs & entreprises</div>
       <div class="assets-list" id="assets-list">
         <span class="assets-empty">Aucun actif pour l'instant.</span>
@@ -1216,6 +1239,18 @@ function updateHUD() {
   document.getElementById('stat-age').textContent = G.age + ' ans';
   document.getElementById('stat-year').textContent = G.year;
   document.getElementById('stat-season').textContent = G.season;
+  // Semaine
+  const weekNum = Math.floor((G.week || 0) % 52) + 1;
+  const statWeek = document.getElementById('stat-week');
+  if(statWeek) statWeek.textContent = 'S' + weekNum;
+  const panelWeek = document.getElementById('panel-week');
+  if(panelWeek) panelWeek.textContent = 'S' + weekNum;
+  const panelSeason = document.getElementById('panel-season');
+  if(panelSeason) panelSeason.textContent = G.season;
+  const panelYear = document.getElementById('panel-year');
+  if(panelYear) panelYear.textContent = G.year;
+  const panelCity = document.getElementById('panel-city');
+  if(panelCity) panelCity.textContent = G.city || '—';
   document.getElementById('stat-capital').textContent = formatMoney(G.capital);
   document.getElementById('stat-income').textContent = formatMoney(G.income) + '/m';
   document.getElementById('stat-wealth').textContent = formatMoney(G.wealth);
