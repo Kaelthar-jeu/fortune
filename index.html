@@ -774,6 +774,15 @@
       Et toi, tu pars de la misère.
     </p>
     <button class="btn-primary" onclick="showCreate()">Commencer</button>
+
+    <div id="api-key-zone" style="margin-top:32px;display:flex;flex-direction:column;align-items:center;gap:8px;">
+      <input type="password" id="api-key-input"
+        placeholder="Clé API Anthropic (sk-ant-...)"
+        style="width:280px;padding:8px 12px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);color:#c9a84c;font-family:monospace;font-size:12px;outline:none;border-radius:2px;"
+        oninput="sauvegarderCleApi(this.value)"
+      />
+      <div id="api-key-status" style="font-size:11px;color:#888;font-family:monospace;height:14px;"></div>
+    </div>
   </div>
 </div>
 
@@ -1002,6 +1011,30 @@ function getSeason(month) {
   return 'Automne';
 }
 
+// Gestion clé API
+function sauvegarderCleApi(val) {
+  val = val.trim();
+  G.apiKey = val;
+  localStorage.setItem('fortune_api_key', val);
+  const st = document.getElementById('api-key-status');
+  if(st) st.textContent = val.startsWith('sk-ant-') ? '✓ Clé valide' : val.length > 0 ? '⚠ Format inattendu' : '';
+}
+
+function chargerCleApi() {
+  const saved = localStorage.getItem('fortune_api_key') || '';
+  G.apiKey = saved;
+  const input = document.getElementById('api-key-input');
+  if(input) {
+    input.value = saved;
+    const zone = document.getElementById('api-key-zone');
+    if(zone) zone.style.display = saved.startsWith('sk-ant-') ? 'none' : 'flex';
+  }
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+  chargerCleApi();
+});
+
 let G = {
   name: '',
   city: '',
@@ -1028,7 +1061,8 @@ let G = {
   history: [],
   nbChoix: 0,
   adminMode: false,
-  gameStarted: false
+  gameStarted: false,
+  apiKey: ''
 };
 
 // ════════════════════════════════════
@@ -1163,7 +1197,12 @@ async function generateNarrative(choiceText) {
   try {
     const response = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': G.apiKey,
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true'
+      },
       body: JSON.stringify({
         model: 'claude-sonnet-4-20250514',
         max_tokens: 1000,
@@ -1212,7 +1251,14 @@ async function generateNarrative(choiceText) {
     parseAndApplyResponse(fullText);
 
   } catch (err) {
-    zone.innerHTML = '<em style="color:var(--text-dim)">Erreur de connexion. Réessaie dans un instant.</em>';
+    const errMsg = err.message || 'Erreur inconnue';
+    const isCors = errMsg.includes('CORS') || errMsg.includes('Failed to fetch');
+    const isKey = errMsg.includes('401') || errMsg.includes('403');
+    let msg = 'Erreur de connexion.';
+    if(isKey) msg = "Clé API invalide ou manquante. Vérifie la clé sur l'écran d'accueil.";
+    else if(isCors) msg = 'Erreur CORS. Assure-toi que la clé API est correcte.';
+    zone.innerHTML = `<em style="color:var(--text-dim)">${msg}</em>
+      <br><button onclick="generateNarrative(null)" style="margin-top:12px;background:var(--gold);color:var(--navy);border:none;padding:8px 20px;font-family:monospace;font-size:11px;cursor:pointer;">↺ Réessayer</button>`;
     console.error(err);
   }
 }
