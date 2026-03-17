@@ -1102,6 +1102,7 @@ function sauvegarderPartie() {
     capital: G.capital, income: G.income, wealth: G.wealth, dettes: G.dettes, scoreCredit: G.scoreCredit,
     sante: G.sante, bonheur: G.bonheur, reputation: G.reputation, reseau: G.reseau,
     assets: G.assets, history: G.history.slice(-15),
+    conversation: G.conversation.slice(-30), // 30 derniers messages max
     nbChoix: G.nbChoix, adminMode: G.adminMode, gameStarted: true,
     date: new Date().toISOString()
   };
@@ -1120,7 +1121,7 @@ function chargerPartie() {
       capital: s.capital, income: s.income, wealth: s.wealth, dettes: s.dettes || 0,
       scoreCredit: s.scoreCredit || 650, sante: s.sante, bonheur: s.bonheur,
       reputation: s.reputation, reseau: s.reseau, assets: s.assets || [],
-      history: s.history || [], nbChoix: s.nbChoix || 0,
+      history: s.history || [], conversation: s.conversation || [], nbChoix: s.nbChoix || 0,
       adminMode: s.adminMode || false, gameStarted: true
     });
     // Afficher le bouton Reprendre sur l'écran intro
@@ -1133,12 +1134,24 @@ function reprendrePartie() {
   if (!G.gameStarted) return;
   showScreen('game');
   updateHUD();
-  generateNarrative(`REPRISE STRICTE — reprends exactement là où on s'était arrêtés.
-${G.name}, ${G.age} ans, ${G.season} ${G.year}, à ${G.city}. Semaine ${G.week || 0}.
+
+  if (G.conversation.length > 0) {
+    // La conversation est sauvegardée : on envoie un message de reprise
+    // qui sera ajouté à la suite de la vraie conversation
+    const resumeMsg = {
+      role: 'user',
+      content: `REPRISE STRICTE — reprends EXACTEMENT là où on s'était arrêtés, même scène, même situation.
+${G.name}, ${G.age} ans, ${G.season} ${G.year}, à ${G.city}.
 Capital : ${formatMoney(G.capital)} | Revenus : ${formatMoney(G.income)}/mois | Patrimoine : ${formatMoney(G.wealth)}
 Actifs : ${G.assets.length ? G.assets.join(', ') : 'aucun'}
-Santé:${G.sante} Bonheur:${G.bonheur} Réputation:${G.reputation} Réseau:${G.reseau}
-Reprends la même scène et propose les 4 choix.`);
+RÈGLE ABSOLUE : aucune progression automatique, aucune décision prise à ma place. Reprends la même scène et propose les 4 choix.`
+    };
+    G.conversation.push(resumeMsg);
+    generateNarrative(null); // null = pas de nouveau message, utiliser G.conversation directement
+  } else {
+    // Pas de conversation sauvegardée : relancer normalement
+    generateNarrative(`REPRISE — je suis ${G.name}, ${G.age} ans, à ${G.city}. Capital : ${formatMoney(G.capital)}. Profil : ${G.profile}. Reprends la situation et propose mes 4 choix.`);
+  }
 }
 
 let G = {
@@ -1167,6 +1180,7 @@ let G = {
   assets: [],
   // Historique
   history: [],
+  conversation: [], // vraie liste {role,content} envoyée à l'API
   nbChoix: 0,
   adminMode: false,
   gameStarted: false,
@@ -1219,6 +1233,7 @@ function startGame() {
   G.capitalLabel = capital.dataset.label;
   G.profile = profile.dataset.val;
   G.wealth = G.capital;
+  G.conversation = []; // Réinitialiser la conversation pour une nouvelle partie
   G.gameStarted = true;
 
   showScreen('game');
@@ -1350,7 +1365,10 @@ async function generateNarrative(choiceText) {
   zone.innerHTML = '<div class="loading-dots"><span></span><span></span><span></span></div>';
 
   const systemPrompt = buildSystemPrompt();
-  const messages = buildMessages(choiceText);
+  // Si choiceText est null, on utilise directement G.conversation (déjà mis à jour)
+  const messages = (choiceText === null && G.conversation.length > 0)
+    ? G.conversation
+    : buildMessages(choiceText);
 
   try {
     const response = await fetch('https://api.anthropic.com/v1/messages', {
@@ -1462,7 +1480,11 @@ function parseAndApplyResponse(text) {
 
   updateHUD();
 
-  // Ajouter à l'historique
+  // Ajouter la réponse IA à la vraie conversation
+  G.conversation.push({ role: 'assistant', content: text });
+  if (G.conversation.length > 30) G.conversation = G.conversation.slice(-30);
+
+  // Historique résumé (pour affichage dans le prompt système)
   G.history.push({ text: narrativeText.slice(0, 200), age: G.age, year: G.year });
   if (G.history.length > 15) G.history.shift();
 
@@ -1544,24 +1566,36 @@ Les 4 choix doivent être des décisions réelles, concrètes, situées dans le 
 }
 
 function buildMessages(choiceText) {
-  const msgs = [];
-
-  if (G.history.length === 0) {
-    // Première scène
-    msgs.push({
+  // Si première scène : initialiser la conversation
+  if (G.conversation.length === 0) {
+    const firstMsg = {
       role: 'user',
       content: `Commence l'histoire de ${G.name}, ${G.age} ans, ${G.season} ${G.year}, à ${G.city}. Capital : ${G.capitalLabel}. Profil : ${G.profile}. C'est la toute première scène — pose le décor, montre qui est ce personnage et quelle est sa situation de départ. Propose 4 choix concrets pour lancer sa vie entrepreneuriale.`
-    });
-  } else {
-    // Résumé de contexte + choix fait
-    const historyText = G.history.slice(-5).map(h => `[${h.age} ans, ${h.year}] ${h.text}`).join('\n');
-    msgs.push({
-      role: 'user',
-      content: `Historique récent :\n${historyText}\n\nSituation actuelle : ${G.age} ans, ${G.season} ${G.year}.\nActifs : ${G.assets.join(', ') || 'aucun'}\nCapital : ${formatMoney(G.capital)} | Revenus : ${formatMoney(G.income)}/mois | Patrimoine : ${formatMoney(G.wealth)}\n\nLe joueur choisit : "${choiceText}"\n\nContinue l'histoire en conséquence. Sois précis sur le temps qui s'écoule.`
-    });
+    };
+    G.conversation.push(firstMsg);
+    return [firstMsg];
   }
 
-  return msgs;
+  // Sinon : ajouter le choix du joueur à la vraie conversation
+  if (choiceText) {
+    const contextMsg = {
+      role: 'user',
+      content: `Situation actuelle : ${G.age} ans, ${G.season} ${G.year}, à ${G.city}.
+Actifs : ${G.assets.join(', ') || 'aucun'}
+Capital : ${formatMoney(G.capital)} | Revenus : ${formatMoney(G.income)}/mois | Patrimoine : ${formatMoney(G.wealth)}
+Dettes : ${formatMoney(G.dettes)} | Santé : ${G.sante}/100 | Bonheur : ${G.bonheur}/100
+
+Le joueur choisit : "${choiceText}"
+
+Continue l'histoire en conséquence. Sois précis sur le temps qui s'écoule en semaines.`
+    };
+    G.conversation.push(contextMsg);
+  }
+
+  // Garder max 30 messages pour ne pas dépasser le contexte
+  if (G.conversation.length > 30) G.conversation = G.conversation.slice(-30);
+
+  return G.conversation;
 }
 
 // ════════════════════════════════════
