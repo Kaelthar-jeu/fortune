@@ -1,0 +1,1426 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fortune — Récit Games</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0a1628;
+    --navy-mid: #112240;
+    --navy-light: #1a3356;
+    --gold: #c9a84c;
+    --gold-light: #e4c97e;
+    --white: #f8f6f0;
+    --white-dim: #d4cfc4;
+    --green: #2ecc71;
+    --red: #e74c3c;
+    --text: #e8e4dc;
+    --text-dim: #8a8a7a;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--navy);
+    color: var(--text);
+    font-family: 'EB Garamond', Georgia, serif;
+    font-size: 18px;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  /* ─── ÉCRANS ─── */
+  .screen { display: none; min-height: 100vh; }
+  .screen.active { display: flex; flex-direction: column; }
+
+  /* ─── INTRO ─── */
+  #screen-intro {
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 40px 20px;
+    background: var(--navy);
+    position: relative;
+    overflow: hidden;
+  }
+
+  #screen-intro::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(ellipse at 60% 40%, rgba(201,168,76,0.06) 0%, transparent 60%),
+                radial-gradient(ellipse at 20% 80%, rgba(17,34,64,0.8) 0%, transparent 50%);
+    pointer-events: none;
+  }
+
+  .intro-tagline {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 4px;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 32px;
+    opacity: 0.8;
+  }
+
+  .intro-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(72px, 15vw, 140px);
+    font-weight: 700;
+    color: var(--white);
+    line-height: 0.9;
+    margin-bottom: 8px;
+    letter-spacing: -2px;
+  }
+
+  .intro-title span {
+    color: var(--gold);
+  }
+
+  .intro-subtitle {
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-size: 20px;
+    color: var(--white-dim);
+    margin-bottom: 48px;
+  }
+
+  .intro-quote {
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-size: 16px;
+    color: var(--text-dim);
+    max-width: 400px;
+    margin: 0 auto 56px;
+    border-left: 2px solid var(--gold);
+    padding-left: 20px;
+    text-align: left;
+  }
+
+  .btn-primary {
+    background: var(--gold);
+    color: var(--navy);
+    border: none;
+    padding: 16px 48px;
+    font-family: 'Space Mono', monospace;
+    font-size: 13px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-weight: 700;
+  }
+
+  .btn-primary:hover {
+    background: var(--gold-light);
+    transform: translateY(-1px);
+  }
+
+  /* ─── CODE ADMIN ─── */
+  .code-section {
+    margin-top: 32px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .code-toggle {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--text-dim);
+    cursor: pointer;
+    text-decoration: underline;
+    background: none;
+    border: none;
+    color: var(--text-dim);
+  }
+
+  .code-input-row {
+    display: none;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .code-input-row.visible { display: flex; }
+
+  .code-input {
+    background: var(--navy-mid);
+    border: 1px solid var(--navy-light);
+    color: var(--text);
+    padding: 8px 16px;
+    font-family: 'Space Mono', monospace;
+    font-size: 13px;
+    width: 220px;
+    outline: none;
+  }
+
+  .code-input:focus { border-color: var(--gold); }
+
+  .code-submit {
+    background: var(--navy-light);
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    padding: 8px 16px;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .code-submit:hover { background: var(--gold); color: var(--navy); }
+
+  #code-status {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    height: 16px;
+  }
+
+  .status-ok { color: var(--green); }
+  .status-err { color: var(--red); }
+
+  /* ─── CRÉATION PERSONNAGE ─── */
+  #screen-create {
+    padding: 40px 20px 60px;
+    max-width: 680px;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  .create-header {
+    margin-bottom: 48px;
+  }
+
+  .create-header h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    font-weight: 400;
+    color: var(--white);
+    margin-bottom: 8px;
+  }
+
+  .create-header p {
+    font-size: 16px;
+    color: var(--text-dim);
+    font-style: italic;
+  }
+
+  .section-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 16px;
+    display: block;
+  }
+
+  .choice-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px;
+    margin-bottom: 40px;
+  }
+
+  .choice-card {
+    background: var(--navy-mid);
+    border: 1px solid var(--navy-light);
+    padding: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+  }
+
+  .choice-card:hover {
+    border-color: var(--gold);
+    background: var(--navy-light);
+  }
+
+  .choice-card.selected {
+    border-color: var(--gold);
+    background: rgba(201,168,76,0.08);
+  }
+
+  .choice-card.selected::after {
+    content: '✓';
+    position: absolute;
+    top: 12px;
+    right: 14px;
+    color: var(--gold);
+    font-family: 'Space Mono', monospace;
+    font-size: 14px;
+  }
+
+  .choice-card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 17px;
+    color: var(--white);
+    margin-bottom: 6px;
+  }
+
+  .choice-card-desc {
+    font-size: 14px;
+    color: var(--text-dim);
+    line-height: 1.5;
+  }
+
+  .choice-card-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: var(--gold);
+    margin-bottom: 8px;
+    display: block;
+  }
+
+  .name-input {
+    width: 100%;
+    background: var(--navy-mid);
+    border: 1px solid var(--navy-light);
+    border-bottom: 2px solid var(--gold);
+    color: var(--white);
+    padding: 14px 16px;
+    font-family: 'EB Garamond', serif;
+    font-size: 20px;
+    outline: none;
+    margin-bottom: 40px;
+  }
+
+  .name-input::placeholder { color: var(--text-dim); font-style: italic; }
+
+  .btn-start {
+    width: 100%;
+    background: var(--gold);
+    color: var(--navy);
+    border: none;
+    padding: 18px;
+    font-family: 'Space Mono', monospace;
+    font-size: 13px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    font-weight: 700;
+    transition: all 0.2s;
+  }
+
+  .btn-start:hover:not(:disabled) { background: var(--gold-light); }
+  .btn-start:disabled { opacity: 0.4; cursor: default; }
+
+  /* ─── JEU ─── */
+  #screen-game {
+    flex-direction: column;
+    min-height: 100vh;
+  }
+
+  /* Header */
+  .game-header {
+    background: var(--navy-mid);
+    border-bottom: 1px solid var(--navy-light);
+    padding: 0 20px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .header-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 56px;
+    gap: 16px;
+  }
+
+  .header-brand {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--gold);
+    flex-shrink: 0;
+  }
+
+  .header-stats {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .stat-chip {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1px;
+  }
+
+  .stat-chip-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 1.5px;
+    color: var(--text-dim);
+    text-transform: uppercase;
+  }
+
+  .stat-chip-value {
+    font-family: 'Space Mono', monospace;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--white);
+  }
+
+  .stat-chip-value.gold { color: var(--gold); }
+  .stat-chip-value.green { color: var(--green); }
+  .stat-chip-value.red { color: var(--red); }
+
+  /* Actifs */
+  .header-assets-toggle {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: var(--text-dim);
+    cursor: pointer;
+    background: none;
+    border: 1px solid var(--navy-light);
+    color: var(--text-dim);
+    padding: 4px 10px;
+    transition: all 0.2s;
+    flex-shrink: 0;
+  }
+
+  .header-assets-toggle:hover { border-color: var(--gold); color: var(--gold); }
+
+  /* Panel actifs */
+  #assets-panel {
+    background: var(--navy-mid);
+    border-bottom: 1px solid var(--navy-light);
+    display: none;
+    padding: 16px 20px;
+  }
+
+  #assets-panel.open { display: block; }
+
+  .assets-inner {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .assets-title {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  .assets-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .asset-tag {
+    background: rgba(201,168,76,0.1);
+    border: 1px solid rgba(201,168,76,0.3);
+    padding: 4px 12px;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--gold-light);
+  }
+
+  .assets-empty {
+    font-style: italic;
+    color: var(--text-dim);
+    font-size: 14px;
+  }
+
+  /* Zone narrative */
+  .game-main {
+    flex: 1;
+    padding: 40px 20px 60px;
+    max-width: 700px;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  .temporal-stamp {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--gold);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 28px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .temporal-stamp::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to right, rgba(201,168,76,0.3), transparent);
+  }
+
+  #narrative-zone {
+    font-size: 20px;
+    line-height: 1.85;
+    color: var(--text);
+    margin-bottom: 40px;
+    min-height: 80px;
+  }
+
+  .cursor {
+    display: inline-block;
+    width: 2px;
+    height: 1.1em;
+    background: var(--gold);
+    vertical-align: text-bottom;
+    animation: blink 0.8s step-end infinite;
+    margin-left: 2px;
+  }
+
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+
+  /* Loader */
+  .loading-dots {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    margin: 16px 0;
+  }
+
+  .loading-dots span {
+    width: 6px;
+    height: 6px;
+    background: var(--gold);
+    border-radius: 50%;
+    animation: dot-pulse 1.4s ease-in-out infinite;
+  }
+
+  .loading-dots span:nth-child(2) { animation-delay: 0.2s; }
+  .loading-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+  @keyframes dot-pulse {
+    0%, 80%, 100% { opacity: 0.2; transform: scale(0.8); }
+    40% { opacity: 1; transform: scale(1); }
+  }
+
+  /* Boutons de choix */
+  #choices-zone {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .choice-btn {
+    background: var(--navy-mid);
+    border: 1px solid var(--navy-light);
+    color: var(--text);
+    padding: 16px 20px;
+    text-align: left;
+    cursor: pointer;
+    font-family: 'EB Garamond', serif;
+    font-size: 17px;
+    line-height: 1.5;
+    transition: all 0.18s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .choice-btn::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 3px;
+    background: var(--gold);
+    transform: scaleY(0);
+    transition: transform 0.18s;
+  }
+
+  .choice-btn:hover {
+    border-color: var(--gold);
+    background: var(--navy-light);
+    padding-left: 28px;
+  }
+
+  .choice-btn:hover::before {
+    transform: scaleY(1);
+  }
+
+  /* Paywall */
+  #paywall-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(10,22,40,0.97);
+    z-index: 200;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    text-align: center;
+  }
+
+  #paywall-overlay.visible { display: flex; }
+
+  .paywall-box {
+    max-width: 480px;
+    width: 100%;
+  }
+
+  .paywall-count {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+
+  .paywall-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 16px;
+  }
+
+  .paywall-text {
+    font-size: 17px;
+    color: var(--text-dim);
+    font-style: italic;
+    margin-bottom: 36px;
+    line-height: 1.6;
+  }
+
+  .paywall-price {
+    font-family: 'Space Mono', monospace;
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--gold);
+    margin-bottom: 8px;
+  }
+
+  .paywall-period {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--text-dim);
+    margin-bottom: 32px;
+  }
+
+  .btn-subscribe {
+    display: block;
+    width: 100%;
+    background: var(--gold);
+    color: var(--navy);
+    border: none;
+    padding: 18px;
+    font-family: 'Space Mono', monospace;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-decoration: none;
+    margin-bottom: 16px;
+  }
+
+  .btn-subscribe:hover { background: var(--gold-light); }
+
+  .paywall-unlock {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    margin-top: 24px;
+  }
+
+  .paywall-code-row {
+    display: flex;
+    gap: 8px;
+  }
+
+  /* Admin badge */
+  #admin-badge {
+    display: none;
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 2px;
+    color: var(--gold);
+    background: rgba(201,168,76,0.1);
+    border: 1px solid rgba(201,168,76,0.3);
+    padding: 2px 8px;
+  }
+
+  /* Stats détail */
+  .stats-bar-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin: 12px 0;
+  }
+
+  .stats-bar-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .stats-bar-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: var(--text-dim);
+    width: 80px;
+    flex-shrink: 0;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .stats-bar-track {
+    flex: 1;
+    height: 4px;
+    background: var(--navy-light);
+    position: relative;
+  }
+
+  .stats-bar-fill {
+    height: 100%;
+    background: var(--gold);
+    transition: width 0.6s ease;
+  }
+
+  .stats-bar-fill.green { background: var(--green); }
+  .stats-bar-fill.red { background: var(--red); }
+
+  .stats-bar-val {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--white);
+    width: 30px;
+    text-align: right;
+    flex-shrink: 0;
+  }
+
+  /* Footer */
+  .game-footer {
+    background: var(--navy-mid);
+    border-top: 1px solid var(--navy-light);
+    padding: 12px 20px;
+    text-align: center;
+  }
+
+  .footer-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .footer-counter {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--text-dim);
+  }
+
+  .footer-brand {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: var(--text-dim);
+    text-decoration: none;
+    opacity: 0.5;
+  }
+
+  /* Responsive */
+  @media (max-width: 600px) {
+    .header-stats { gap: 12px; }
+    .stat-chip-value { font-size: 12px; }
+    #narrative-zone { font-size: 18px; }
+    .choice-btn { font-size: 16px; padding: 14px 16px; }
+    .header-brand { font-size: 16px; }
+  }
+
+  @media (max-width: 420px) {
+    .header-stats { gap: 8px; }
+    .stat-chip { display: none; }
+    .stat-chip:nth-child(1),
+    .stat-chip:nth-child(2),
+    .stat-chip:nth-child(3) { display: flex; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════ ÉCRAN INTRO ══════════ -->
+<div id="screen-intro" class="screen active">
+  <div style="position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;width:100%;">
+    <p class="intro-tagline">Récit Games — Roman interactif</p>
+    <h1 class="intro-title">F<span>O</span>RTUNE</h1>
+    <p class="intro-subtitle">Une vie. Des choix. Un empire.</p>
+    <p class="intro-quote">
+      L'argent ne fait pas le bonheur.<br>
+      Mais son absence fait la misère.<br>
+      Et toi, tu pars de la misère.
+    </p>
+    <button class="btn-primary" onclick="showCreate()">Commencer</button>
+    <div class="code-section">
+      <button class="code-toggle" onclick="toggleCodeInput()">Code d'accès</button>
+      <div class="code-input-row" id="code-input-row">
+        <input class="code-input" type="text" id="code-field" placeholder="RG-XXXX-XXXX" maxlength="20">
+        <button class="code-submit" onclick="submitCode()">OK</button>
+      </div>
+      <div id="code-status"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ ÉCRAN CRÉATION ══════════ -->
+<div id="screen-create" class="screen">
+  <div class="create-header">
+    <h2>Qui es-tu ?</h2>
+    <p>Chaque vie commence quelque part. La tienne commence ici.</p>
+  </div>
+
+  <!-- Nom -->
+  <span class="section-label">Ton prénom</span>
+  <input class="name-input" type="text" id="player-name" placeholder="Entre ton prénom..." maxlength="30">
+
+  <!-- Ville -->
+  <span class="section-label">Ta ville de départ</span>
+  <div class="choice-grid" id="city-grid">
+    <div class="choice-card" data-group="city" data-val="New York" onclick="selectCard(this)">
+      <span class="choice-card-tag">Finance · Immo · Tech</span>
+      <div class="choice-card-title">New York</div>
+      <div class="choice-card-desc">Opportunités maximales. Coût de vie maximal.</div>
+    </div>
+    <div class="choice-card" data-group="city" data-val="Paris" onclick="selectCard(this)">
+      <span class="choice-card-tag">Luxe · Immo · Culture</span>
+      <div class="choice-card-title">Paris</div>
+      <div class="choice-card-desc">Marché ferme, stable. Codes sociaux stricts.</div>
+    </div>
+    <div class="choice-card" data-group="city" data-val="Dubaï" onclick="selectCard(this)">
+      <span class="choice-card-tag">Fiscalité · Commerce · Immo</span>
+      <div class="choice-card-title">Dubaï</div>
+      <div class="choice-card-desc">Zéro impôt. Croissance rapide. Règles différentes.</div>
+    </div>
+    <div class="choice-card" data-group="city" data-val="Londres" onclick="selectCard(this)">
+      <span class="choice-card-tag">Finance · Startups</span>
+      <div class="choice-card-title">Londres</div>
+      <div class="choice-card-desc">Post-Brexit : incertitudes et opportunités.</div>
+    </div>
+    <div class="choice-card" data-group="city" data-val="Tokyo" onclick="selectCard(this)">
+      <span class="choice-card-tag">Tech · Robotique</span>
+      <div class="choice-card-title">Tokyo</div>
+      <div class="choice-card-desc">Marché fermé. Mais celui qui comprend gagne gros.</div>
+    </div>
+    <div class="choice-card" data-group="city" data-val="São Paulo" onclick="selectCard(this)">
+      <span class="choice-card-tag">Émergent · Volatile</span>
+      <div class="choice-card-title">São Paulo</div>
+      <div class="choice-card-desc">Chaos et opportunités. Pour les audacieux.</div>
+    </div>
+  </div>
+
+  <!-- Capital -->
+  <span class="section-label">Ton capital de départ</span>
+  <div class="choice-grid" id="capital-grid">
+    <div class="choice-card" data-group="capital" data-val="0" data-label="Rien (0 €)" onclick="selectCard(this)">
+      <span class="choice-card-tag">Mode difficile</span>
+      <div class="choice-card-title">De zéro</div>
+      <div class="choice-card-desc">Pas un euro. Le jeu le plus long — et le plus satisfaisant.</div>
+    </div>
+    <div class="choice-card" data-group="capital" data-val="5000" data-label="5 000 €" onclick="selectCard(this)">
+      <span class="choice-card-tag">Mode normal</span>
+      <div class="choice-card-title">5 000 €</div>
+      <div class="choice-card-desc">Un petit capital. Assez pour commencer quelque chose.</div>
+    </div>
+    <div class="choice-card" data-group="capital" data-val="50000" data-label="50 000 €" onclick="selectCard(this)">
+      <span class="choice-card-tag">Mode confortable</span>
+      <div class="choice-card-title">50 000 €</div>
+      <div class="choice-card-desc">Des options réelles dès le départ. L'histoire commence plus haut.</div>
+    </div>
+  </div>
+
+  <!-- Profil -->
+  <span class="section-label">Ton profil entrepreneurial</span>
+  <div class="choice-grid" id="profile-grid">
+    <div class="choice-card" data-group="profile" data-val="Visionnaire" onclick="selectCard(this)">
+      <span class="choice-card-tag">Startups · Innovation</span>
+      <div class="choice-card-title">Le Visionnaire</div>
+      <div class="choice-card-desc">Pense grand, pense long terme. Fort pour attirer des associés.</div>
+    </div>
+    <div class="choice-card" data-group="profile" data-val="Pragmatique" onclick="selectCard(this)">
+      <span class="choice-card-tag">Commerce · Immo · Franchise</span>
+      <div class="choice-card-title">Le Pragmatique</div>
+      <div class="choice-card-desc">Suit les chiffres. Moins innovant mais plus stable.</div>
+    </div>
+    <div class="choice-card" data-group="profile" data-val="Joueur" onclick="selectCard(this)">
+      <span class="choice-card-tag">Trading · Spéculation</span>
+      <div class="choice-card-title">Le Joueur</div>
+      <div class="choice-card-desc">Aime le risque. Peut tout gagner ou tout perdre.</div>
+    </div>
+    <div class="choice-card" data-group="profile" data-val="Bâtisseur" onclick="selectCard(this)">
+      <span class="choice-card-tag">Entreprises réelles</span>
+      <div class="choice-card-title">Le Bâtisseur</div>
+      <div class="choice-card-desc">Construit avec des employés, des locaux, des produits.</div>
+    </div>
+  </div>
+
+  <button class="btn-start" id="btn-start" onclick="startGame()" disabled>Commencer ma vie →</button>
+</div>
+
+<!-- ══════════ ÉCRAN JEU ══════════ -->
+<div id="screen-game" class="screen">
+
+  <!-- Header stats -->
+  <header class="game-header">
+    <div class="header-inner">
+      <span class="header-brand">F<span style="color:var(--text-dim);font-size:14px">ORTUNE</span></span>
+      <div class="header-stats">
+        <div class="stat-chip">
+          <span class="stat-chip-label">Âge</span>
+          <span class="stat-chip-value gold" id="stat-age">22</span>
+        </div>
+        <div class="stat-chip">
+          <span class="stat-chip-label">Année</span>
+          <span class="stat-chip-value" id="stat-year">2024</span>
+        </div>
+        <div class="stat-chip">
+          <span class="stat-chip-label">Saison</span>
+          <span class="stat-chip-value" id="stat-season">Printemps</span>
+        </div>
+        <div class="stat-chip">
+          <span class="stat-chip-label">Capital</span>
+          <span class="stat-chip-value green" id="stat-capital">0 €</span>
+        </div>
+        <div class="stat-chip">
+          <span class="stat-chip-label">Revenus/mois</span>
+          <span class="stat-chip-value" id="stat-income">0 €</span>
+        </div>
+        <div class="stat-chip">
+          <span class="stat-chip-label">Patrimoine</span>
+          <span class="stat-chip-value gold" id="stat-wealth">0 €</span>
+        </div>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center;">
+        <span id="admin-badge">ADMIN</span>
+        <button class="header-assets-toggle" onclick="toggleAssets()">Actifs ▾</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Panel actifs -->
+  <div id="assets-panel">
+    <div class="assets-inner">
+      <div class="assets-title">Mes actifs & entreprises</div>
+      <div class="assets-list" id="assets-list">
+        <span class="assets-empty">Aucun actif pour l'instant.</span>
+      </div>
+      <!-- Barres de vie -->
+      <div class="stats-bar-group" style="margin-top:16px;">
+        <div class="stats-bar-row">
+          <span class="stats-bar-label">Santé</span>
+          <div class="stats-bar-track"><div class="stats-bar-fill green" id="bar-sante" style="width:80%"></div></div>
+          <span class="stats-bar-val" id="val-sante">80</span>
+        </div>
+        <div class="stats-bar-row">
+          <span class="stats-bar-label">Bonheur</span>
+          <div class="stats-bar-track"><div class="stats-bar-fill" id="bar-bonheur" style="width:70%"></div></div>
+          <span class="stats-bar-val" id="val-bonheur">70</span>
+        </div>
+        <div class="stats-bar-row">
+          <span class="stats-bar-label">Réputation</span>
+          <div class="stats-bar-track"><div class="stats-bar-fill" id="bar-reputation" style="width:30%"></div></div>
+          <span class="stats-bar-val" id="val-reputation">30</span>
+        </div>
+        <div class="stats-bar-row">
+          <span class="stats-bar-label">Réseau</span>
+          <div class="stats-bar-track"><div class="stats-bar-fill" id="bar-reseau" style="width:10%"></div></div>
+          <span class="stats-bar-val" id="val-reseau">10</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Zone narrative principale -->
+  <main class="game-main">
+    <div class="temporal-stamp" id="temporal-stamp">Printemps 2024 — 22 ans</div>
+    <div id="narrative-zone"></div>
+    <div id="choices-zone"></div>
+  </main>
+
+  <footer class="game-footer">
+    <div class="footer-inner">
+      <span class="footer-counter" id="footer-counter">Choix : 0 / 20</span>
+      <a href="https://recitgames.vercel.app" class="footer-brand" target="_blank">Récit Games</a>
+    </div>
+  </footer>
+</div>
+
+<!-- ══════════ PAYWALL ══════════ -->
+<div id="paywall-overlay">
+  <div class="paywall-box">
+    <p class="paywall-count">Extrait terminé</p>
+    <h2 class="paywall-title">La suite t'attend.</h2>
+    <p class="paywall-text">
+      Tu as posé les premières fondations.<br>
+      Pour continuer à construire ton empire — mois après mois, décision après décision — rejoins Fortune.
+    </p>
+    <div class="paywall-price">7 €</div>
+    <div class="paywall-period">par mois · accès à tous les Récit Games</div>
+    <a href="https://buy.stripe.com/test_8x2bJ05fU1yV3uKde1bZe00" class="btn-subscribe" target="_blank">S'abonner →</a>
+    <div class="paywall-unlock">
+      <div class="paywall-code-row">
+        <input class="code-input" type="text" id="paywall-code-field" placeholder="Code d'accès" maxlength="20">
+        <button class="code-submit" onclick="submitPaywallCode()">OK</button>
+      </div>
+      <div id="paywall-code-status"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ════════════════════════════════════
+//  ÉTAT DU JEU
+// ════════════════════════════════════
+const SAVE_KEY = 'fortune_save_v1';
+const PAYWALL_LIMIT = 20;
+const STRIPE_URL = 'https://buy.stripe.com/test_8x2bJ05fU1yV3uKde1bZe00';
+const API_URL = 'https://recitgames-api.vercel.app/api/verify-code';
+
+// Année de début du jeu (toujours 2 ans avant maintenant, ou fixe)
+const START_YEAR = 2025;
+
+const SEASONS = ['Hiver', 'Printemps', 'Été', 'Automne'];
+function getSeason(month) {
+  // month 0-11
+  if (month < 3) return 'Hiver';
+  if (month < 6) return 'Printemps';
+  if (month < 9) return 'Été';
+  return 'Automne';
+}
+
+let G = {
+  name: '',
+  city: '',
+  capitalLabel: '',
+  profile: '',
+  // Temps
+  age: 22,
+  year: START_YEAR,
+  month: 2, // mars = printemps
+  season: 'Printemps',
+  // Finances
+  capital: 0,
+  income: 0,
+  wealth: 0,
+  dettes: 0,
+  // Stats vie
+  sante: 80,
+  bonheur: 70,
+  reputation: 30,
+  reseau: 10,
+  // Actifs (liste libre)
+  assets: [],
+  // Historique
+  history: [],
+  nbChoix: 0,
+  adminMode: false,
+  gameStarted: false
+};
+
+// ════════════════════════════════════
+//  NAVIGATION
+// ════════════════════════════════════
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('screen-' + id).classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+function showCreate() { showScreen('create'); }
+
+// ════════════════════════════════════
+//  SÉLECTION CARTES
+// ════════════════════════════════════
+function selectCard(el) {
+  const group = el.dataset.group;
+  document.querySelectorAll(`.choice-card[data-group="${group}"]`).forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  checkCreateReady();
+}
+
+function checkCreateReady() {
+  const city = document.querySelector('.choice-card[data-group="city"].selected');
+  const capital = document.querySelector('.choice-card[data-group="capital"].selected');
+  const profile = document.querySelector('.choice-card[data-group="profile"].selected');
+  const name = document.getElementById('player-name').value.trim();
+  document.getElementById('btn-start').disabled = !(city && capital && profile && name);
+}
+
+document.getElementById('player-name').addEventListener('input', checkCreateReady);
+
+// ════════════════════════════════════
+//  DÉMARRER LE JEU
+// ════════════════════════════════════
+function startGame() {
+  const name = document.getElementById('player-name').value.trim();
+  const city = document.querySelector('.choice-card[data-group="city"].selected');
+  const capital = document.querySelector('.choice-card[data-group="capital"].selected');
+  const profile = document.querySelector('.choice-card[data-group="profile"].selected');
+
+  G.name = name;
+  G.city = city.dataset.val;
+  G.capital = parseInt(capital.dataset.val);
+  G.capitalLabel = capital.dataset.label;
+  G.profile = profile.dataset.val;
+  G.wealth = G.capital;
+  G.gameStarted = true;
+
+  showScreen('game');
+  updateHUD();
+  generateNarrative(null);
+}
+
+// ════════════════════════════════════
+//  HUD
+// ════════════════════════════════════
+function formatMoney(n) {
+  if (Math.abs(n) >= 1000000) return (n / 1000000).toFixed(1).replace('.0','') + ' M€';
+  if (Math.abs(n) >= 1000) return Math.round(n / 1000) + ' k€';
+  return n + ' €';
+}
+
+function updateHUD() {
+  document.getElementById('stat-age').textContent = G.age + ' ans';
+  document.getElementById('stat-year').textContent = G.year;
+  document.getElementById('stat-season').textContent = G.season;
+  document.getElementById('stat-capital').textContent = formatMoney(G.capital);
+  document.getElementById('stat-income').textContent = formatMoney(G.income) + '/m';
+  document.getElementById('stat-wealth').textContent = formatMoney(G.wealth);
+  document.getElementById('temporal-stamp').textContent = G.season + ' ' + G.year + ' — ' + G.age + ' ans';
+
+  // Counter
+  const remain = G.adminMode ? '∞' : (PAYWALL_LIMIT - G.nbChoix);
+  document.getElementById('footer-counter').textContent = G.adminMode
+    ? 'Mode Admin — choix illimités'
+    : `Choix : ${G.nbChoix} / ${PAYWALL_LIMIT}`;
+
+  // Barres
+  setBar('sante', G.sante);
+  setBar('bonheur', G.bonheur);
+  setBar('reputation', G.reputation);
+  setBar('reseau', G.reseau);
+
+  // Actifs
+  const list = document.getElementById('assets-list');
+  if (G.assets.length === 0) {
+    list.innerHTML = '<span class="assets-empty">Aucun actif pour l\'instant.</span>';
+  } else {
+    list.innerHTML = G.assets.map(a => `<span class="asset-tag">${a}</span>`).join('');
+  }
+
+  // Admin badge
+  document.getElementById('admin-badge').style.display = G.adminMode ? 'inline' : 'none';
+}
+
+function setBar(key, val) {
+  const fill = document.getElementById('bar-' + key);
+  const text = document.getElementById('val-' + key);
+  if (fill) fill.style.width = Math.max(0, Math.min(100, val)) + '%';
+  if (text) text.textContent = Math.round(val);
+}
+
+// ════════════════════════════════════
+//  TEMPS
+// ════════════════════════════════════
+function advanceTime(months) {
+  // months = nombre de mois à avancer
+  G.month += months;
+  while (G.month >= 12) {
+    G.month -= 12;
+    G.year++;
+    G.age++;
+  }
+  G.season = getSeason(G.month);
+}
+
+// ════════════════════════════════════
+//  GÉNÉRATION NARRATIVE
+// ════════════════════════════════════
+async function generateNarrative(choiceText) {
+  const zone = document.getElementById('narrative-zone');
+  const choicesZone = document.getElementById('choices-zone');
+
+  choicesZone.innerHTML = '';
+  zone.innerHTML = '<div class="loading-dots"><span></span><span></span><span></span></div>';
+
+  const systemPrompt = buildSystemPrompt();
+  const messages = buildMessages(choiceText);
+
+  try {
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        stream: true,
+        system: systemPrompt,
+        messages: messages
+      })
+    });
+
+    if (!response.ok) throw new Error('API error ' + response.status);
+
+    zone.innerHTML = '';
+    let cursor = document.createElement('span');
+    cursor.className = 'cursor';
+    zone.appendChild(cursor);
+
+    const reader = response.body.getReader();
+    const decoder = new TextDecoder();
+    let buffer = '';
+    let fullText = '';
+
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+
+      buffer += decoder.decode(value, { stream: true });
+      const lines = buffer.split('\n');
+      buffer = lines.pop();
+
+      for (const line of lines) {
+        if (!line.startsWith('data: ')) continue;
+        const data = line.slice(6).trim();
+        if (data === '[DONE]') continue;
+        try {
+          const evt = JSON.parse(data);
+          if (evt.type === 'content_block_delta' && evt.delta?.type === 'text_delta') {
+            const chunk = evt.delta.text.replace(/[^\x20-\x7E\u00C0-\u024F\u2019\u2018\u201C\u201D\n]/g, '');
+            fullText += chunk;
+            zone.insertBefore(document.createTextNode(chunk), cursor);
+          }
+        } catch {}
+      }
+    }
+
+    cursor.remove();
+    parseAndApplyResponse(fullText);
+
+  } catch (err) {
+    zone.innerHTML = '<em style="color:var(--text-dim)">Erreur de connexion. Réessaie dans un instant.</em>';
+    console.error(err);
+  }
+}
+
+// ════════════════════════════════════
+//  PARSING RÉPONSE IA
+// ════════════════════════════════════
+function parseAndApplyResponse(text) {
+  // Extraire JSON de fin de réponse
+  const jsonMatch = text.match(/\{[\s\S]*"choices"[\s\S]*\}/);
+  if (!jsonMatch) {
+    // Pas de JSON — afficher quand même 4 boutons génériques
+    renderChoices(['Continuer', 'Prendre du recul', 'Chercher des informations', 'Passer du temps libre']);
+    return;
+  }
+
+  let data;
+  try { data = JSON.parse(jsonMatch[0]); } catch { return; }
+
+  // Mettre à jour le texte (retirer le JSON)
+  const narrativeText = text.replace(/\{[\s\S]*"choices"[\s\S]*\}/, '').trim();
+  const zone = document.getElementById('narrative-zone');
+  zone.textContent = narrativeText;
+
+  // Appliquer les mises à jour de stats
+  if (data.stats) {
+    const s = data.stats;
+    if (s.capital !== undefined) G.capital = s.capital;
+    if (s.income !== undefined) G.income = s.income;
+    if (s.wealth !== undefined) G.wealth = s.wealth;
+    if (s.sante !== undefined) G.sante = Math.max(0, Math.min(100, s.sante));
+    if (s.bonheur !== undefined) G.bonheur = Math.max(0, Math.min(100, s.bonheur));
+    if (s.reputation !== undefined) G.reputation = Math.max(0, Math.min(100, s.reputation));
+    if (s.reseau !== undefined) G.reseau = Math.max(0, Math.min(100, s.reseau));
+    if (s.dettes !== undefined) G.dettes = s.dettes;
+    if (s.newAsset) G.assets.push(s.newAsset);
+    if (s.removeAsset) G.assets = G.assets.filter(a => a !== s.removeAsset);
+    if (s.monthsAdvanced) advanceTime(s.monthsAdvanced);
+  }
+
+  updateHUD();
+
+  // Ajouter à l'historique
+  G.history.push({ text: narrativeText.slice(0, 200), age: G.age, year: G.year });
+  if (G.history.length > 15) G.history.shift();
+
+  // Rendu des choix
+  if (data.choices && data.choices.length) {
+    renderChoices(data.choices);
+  }
+
+  window.scrollTo(0, 0);
+}
+
+function renderChoices(choices) {
+  const zone = document.getElementById('choices-zone');
+  zone.innerHTML = '';
+  choices.slice(0, 4).forEach(c => {
+    const btn = document.createElement('button');
+    btn.className = 'choice-btn';
+    btn.textContent = c;
+    btn.onclick = () => handleChoice(c);
+    zone.appendChild(btn);
+  });
+}
+
+// ════════════════════════════════════
+//  CHOIX JOUEUR
+// ════════════════════════════════════
+function handleChoice(choiceText) {
+  if (!G.adminMode) {
+    G.nbChoix++;
+    if (G.nbChoix >= PAYWALL_LIMIT) {
+      document.getElementById('paywall-overlay').classList.add('visible');
+      return;
+    }
+  }
+  updateHUD();
+  generateNarrative(choiceText);
+}
+
+// ════════════════════════════════════
+//  PROMPT SYSTÈME
+// ════════════════════════════════════
+function buildSystemPrompt() {
+  return `Tu es le narrateur de FORTUNE, un roman interactif d'entrepreneuriat. Tu incarnes la voix d'un destin qui observe le joueur construire sa vie.
+
+IDENTITÉ DU JOUEUR :
+- Prénom : ${G.name}
+- Ville : ${G.city}
+- Capital de départ : ${G.capitalLabel}
+- Profil : ${G.profile}
+- Situation actuelle : ${G.age} ans, ${G.season} ${G.year}
+- Capital liquide : ${formatMoney(G.capital)}
+- Revenus mensuels : ${formatMoney(G.income)}
+- Patrimoine net : ${formatMoney(G.wealth)}
+- Dettes : ${formatMoney(G.dettes)}
+- Actifs et entreprises : ${G.assets.length > 0 ? G.assets.join(', ') : 'aucun'}
+- Santé : ${G.sante}/100, Bonheur : ${G.bonheur}/100, Réputation : ${G.reputation}/100, Réseau : ${G.reseau}/100
+
+RÈGLES ABSOLUES :
+1. TEMPS : Le temps s'écoule naturellement avec les années ET les saisons (Hiver/Printemps/Été/Automne). Chaque scène couvre quelques semaines à quelques mois. JAMAIS plus de 12 mois (1 an) en une seule scène. En général, une scène = 1 à 4 mois. Le joueur doit sentir sa vie avancer saison après saison, pas par bonds de plusieurs années.
+2. INVESTISSEMENTS : Le joueur peut investir dans ABSOLUMENT TOUT ce qu'il veut — immobilier, trading, actions, crypto, startups, restaurants, agences, franchises, usines, œuvres d'art, tout. Aucune restriction arbitraire.
+3. MULTI-BUSINESS : Le joueur peut posséder autant d'entreprises et d'actifs simultanément qu'il le souhaite. L'accumulation est illimitée.
+4. CONSÉQUENCES RÉELLES : Une mauvaise décision financière a des conséquences réelles. L'IA ne protège jamais le joueur.
+5. COHÉRENCE : Respecte les actifs existants. Si le joueur possède déjà un restaurant, les revenus mensuels doivent le refléter.
+6. ANCRAGE TEMPOREL : Chaque scène indique précisément la saison, l'année, l'âge du joueur.
+7. Mots INTERDITS : soudain, immédiatement, incroyable, impressionnant.
+8. Les chiffres sont toujours réalistes — pas de gains fantaisistes sans justification narrative.
+9. OBLIGATOIRE : français correct avec tous les accents (é, è, ê, à, ù, ô, î, etc.)
+
+MOTEUR LITTÉRAIRE : Précision financière de Michael Lewis (l'argent comme aventure humaine), dimension sociale de Tom Wolfe (ce que l'argent fait aux gens), ambition d'Ayn Rand (refus des limites). Chaque scène est un roman, pas un tableur.
+
+FORMAT DE RÉPONSE OBLIGATOIRE :
+Écris d'abord le texte narratif (3-5 paragraphes, vivants et précis), puis termine TOUJOURS par un objet JSON sur une seule ligne :
+{"choices":["Choix 1","Choix 2","Choix 3","Choix 4"],"stats":{"capital":NOUVEAU_CAPITAL,"income":NOUVEAU_REVENU_MENSUEL,"wealth":NOUVEAU_PATRIMOINE,"sante":NOUVELLE_SANTE,"bonheur":NOUVEAU_BONHEUR,"reputation":NOUVELLE_REPUTATION,"reseau":NOUVEAU_RESEAU,"dettes":NOUVELLES_DETTES,"monthsAdvanced":MOIS_ECOULES,"newAsset":"NOM_ACTIF_ACQUIS_OU_null","removeAsset":"NOM_ACTIF_VENDU_OU_null"}}
+
+Les 4 choix doivent être des décisions réelles, concrètes, situées dans le contexte actuel. Pas de choix génériques.`;
+}
+
+function buildMessages(choiceText) {
+  const msgs = [];
+
+  if (G.history.length === 0) {
+    // Première scène
+    msgs.push({
+      role: 'user',
+      content: `Commence l'histoire de ${G.name}, ${G.age} ans, ${G.season} ${G.year}, à ${G.city}. Capital : ${G.capitalLabel}. Profil : ${G.profile}. C'est la toute première scène — pose le décor, montre qui est ce personnage et quelle est sa situation de départ. Propose 4 choix concrets pour lancer sa vie entrepreneuriale.`
+    });
+  } else {
+    // Résumé de contexte + choix fait
+    const historyText = G.history.slice(-5).map(h => `[${h.age} ans, ${h.year}] ${h.text}`).join('\n');
+    msgs.push({
+      role: 'user',
+      content: `Historique récent :\n${historyText}\n\nSituation actuelle : ${G.age} ans, ${G.season} ${G.year}.\nActifs : ${G.assets.join(', ') || 'aucun'}\nCapital : ${formatMoney(G.capital)} | Revenus : ${formatMoney(G.income)}/mois | Patrimoine : ${formatMoney(G.wealth)}\n\nLe joueur choisit : "${choiceText}"\n\nContinue l'histoire en conséquence. Sois précis sur le temps qui s'écoule.`
+    });
+  }
+
+  return msgs;
+}
+
+// ════════════════════════════════════
+//  PANEL ACTIFS
+// ════════════════════════════════════
+function toggleAssets() {
+  const panel = document.getElementById('assets-panel');
+  panel.classList.toggle('open');
+}
+
+// ════════════════════════════════════
+//  CODE D'ACCÈS
+// ════════════════════════════════════
+function toggleCodeInput() {
+  const row = document.getElementById('code-input-row');
+  row.classList.toggle('visible');
+}
+
+async function verifyCode(code, statusEl) {
+  statusEl.textContent = '…';
+  statusEl.className = '';
+  try {
+    const r = await fetch(`${API_URL}?code=${encodeURIComponent(code)}`);
+    const data = await r.json();
+    if (data.valid) {
+      statusEl.textContent = data.admin ? '✓ Mode admin activé' : '✓ Accès débloqué';
+      statusEl.className = 'status-ok';
+      return data;
+    } else {
+      statusEl.textContent = '✗ Code invalide';
+      statusEl.className = 'status-err';
+      return null;
+    }
+  } catch {
+    statusEl.textContent = '✗ Erreur réseau';
+    statusEl.className = 'status-err';
+    return null;
+  }
+}
+
+async function submitCode() {
+  const code = document.getElementById('code-field').value.trim().toUpperCase();
+  const status = document.getElementById('code-status');
+  const data = await verifyCode(code, status);
+  if (data?.admin) {
+    G.adminMode = true;
+    updateHUD();
+  }
+}
+
+async function submitPaywallCode() {
+  const code = document.getElementById('paywall-code-field').value.trim().toUpperCase();
+  const status = document.getElementById('paywall-code-status');
+  const data = await verifyCode(code, status);
+  if (data?.valid) {
+    if (data.admin) G.adminMode = true;
+    G.nbChoix = 0;
+    document.getElementById('paywall-overlay').classList.remove('visible');
+    updateHUD();
+  }
+}
+</script>
+</body>
+</html>
