@@ -774,6 +774,7 @@
       Et toi, tu pars de la misère.
     </p>
     <button class="btn-primary" onclick="showCreate()">Commencer</button>
+    <button class="btn-primary" id="btn-reprendre" onclick="reprendrePartie()" style="display:none;margin-top:12px;background:var(--navy-mid);border:1px solid var(--gold);color:var(--gold);">Reprendre ma partie</button>
 
     <div id="api-key-zone" style="margin-top:32px;display:flex;flex-direction:column;align-items:center;gap:8px;">
       <input type="password" id="api-key-input"
@@ -1064,7 +1065,58 @@ function chargerCleApi() {
 
 window.addEventListener('DOMContentLoaded', () => {
   chargerCleApi();
+  chargerPartie();
 });
+
+// ════════════════════════════════════
+//  SAUVEGARDE
+// ════════════════════════════════════
+function sauvegarderPartie() {
+  if (!G.gameStarted) return;
+  const data = {
+    name: G.name, city: G.city, capitalLabel: G.capitalLabel, profile: G.profile,
+    age: G.age, year: G.year, month: G.month, week: G.week || 0, season: G.season,
+    capital: G.capital, income: G.income, wealth: G.wealth, dettes: G.dettes, scoreCredit: G.scoreCredit,
+    sante: G.sante, bonheur: G.bonheur, reputation: G.reputation, reseau: G.reseau,
+    assets: G.assets, history: G.history.slice(-15),
+    nbChoix: G.nbChoix, adminMode: G.adminMode, gameStarted: true,
+    date: new Date().toISOString()
+  };
+  localStorage.setItem(SAVE_KEY, JSON.stringify(data));
+}
+
+function chargerPartie() {
+  const raw = localStorage.getItem(SAVE_KEY);
+  if (!raw) return;
+  try {
+    const s = JSON.parse(raw);
+    if (!s.gameStarted || !s.name) return;
+    Object.assign(G, {
+      name: s.name, city: s.city, capitalLabel: s.capitalLabel, profile: s.profile,
+      age: s.age, year: s.year, month: s.month, week: s.week || 0, season: s.season,
+      capital: s.capital, income: s.income, wealth: s.wealth, dettes: s.dettes || 0,
+      scoreCredit: s.scoreCredit || 650, sante: s.sante, bonheur: s.bonheur,
+      reputation: s.reputation, reseau: s.reseau, assets: s.assets || [],
+      history: s.history || [], nbChoix: s.nbChoix || 0,
+      adminMode: s.adminMode || false, gameStarted: true
+    });
+    // Afficher le bouton Reprendre sur l'écran intro
+    const btn = document.getElementById('btn-reprendre');
+    if (btn) btn.style.display = 'block';
+  } catch(e) { console.error('Erreur chargement:', e); }
+}
+
+function reprendrePartie() {
+  if (!G.gameStarted) return;
+  showScreen('game');
+  updateHUD();
+  generateNarrative(`REPRISE STRICTE — reprends exactement là où on s'était arrêtés.
+${G.name}, ${G.age} ans, ${G.season} ${G.year}, à ${G.city}. Semaine ${G.week || 0}.
+Capital : ${formatMoney(G.capital)} | Revenus : ${formatMoney(G.income)}/mois | Patrimoine : ${formatMoney(G.wealth)}
+Actifs : ${G.assets.length ? G.assets.join(', ') : 'aucun'}
+Santé:${G.sante} Bonheur:${G.bonheur} Réputation:${G.reputation} Réseau:${G.reseau}
+Reprends la même scène et propose les 4 choix.`);
+}
 
 let G = {
   name: '',
@@ -1075,6 +1127,7 @@ let G = {
   age: 22,
   year: START_YEAR,
   month: 2, // mars = printemps
+  week: 8,  // semaine de l'année (0-51)
   season: 'Printemps',
   // Finances
   capital: 0,
@@ -1229,7 +1282,7 @@ function setBar(key, val) {
 //  TEMPS
 // ════════════════════════════════════
 function advanceTime(months) {
-  // months = nombre de mois à avancer
+  // Compatibilité : reçoit des mois OU des semaines selon le contexte
   G.month += months;
   while (G.month >= 12) {
     G.month -= 12;
@@ -1237,6 +1290,18 @@ function advanceTime(months) {
     G.age++;
   }
   G.season = getSeason(G.month);
+}
+
+function advanceWeeks(weeks) {
+  // Avancer en semaines (4 semaines ≈ 1 mois)
+  const months = weeks / 4;
+  G.week = (G.week || 0) + weeks;
+  // Synchroniser les mois
+  const newMonths = Math.floor(G.week / 4);
+  const prevMonths = Math.floor((G.week - weeks) / 4);
+  if (newMonths > prevMonths) {
+    advanceTime(newMonths - prevMonths);
+  }
 }
 
 // ════════════════════════════════════
@@ -1355,7 +1420,9 @@ function parseAndApplyResponse(text) {
     if (s.scoreCredit !== undefined) G.scoreCredit = s.scoreCredit;
     if (s.newAsset) G.assets.push(s.newAsset);
     if (s.removeAsset) G.assets = G.assets.filter(a => a !== s.removeAsset);
-    if (s.monthsAdvanced) advanceTime(s.monthsAdvanced);
+    if (s.weeksAdvanced) advanceWeeks(s.weeksAdvanced);
+    else if (s.monthsAdvanced) advanceTime(s.monthsAdvanced); // rétrocompatibilité
+    if (s.city) G.city = s.city; // changement de pays/ville
   }
 
   updateHUD();
@@ -1369,6 +1436,7 @@ function parseAndApplyResponse(text) {
     renderChoices(data.choices);
   }
 
+  sauvegarderPartie();
   window.scrollTo(0, 0);
 }
 
@@ -1420,7 +1488,8 @@ IDENTITÉ DU JOUEUR :
 - Santé : ${G.sante}/100, Bonheur : ${G.bonheur}/100, Réputation : ${G.reputation}/100, Réseau : ${G.reseau}/100
 
 RÈGLES ABSOLUES :
-1. TEMPS : Le temps s'écoule naturellement avec les années ET les saisons (Hiver/Printemps/Été/Automne). Chaque scène couvre quelques semaines à quelques mois. JAMAIS plus de 12 mois (1 an) en une seule scène. En général, une scène = 1 à 4 mois. Le joueur doit sentir sa vie avancer saison après saison, pas par bonds de plusieurs années.
+1. TEMPS : Le temps s'écoule en SEMAINES. Chaque scène = 1 à 4 semaines maximum. Les saisons (Hiver/Printemps/Été/Automne) restent visibles et évoluent naturellement. JAMAIS plus de 4 semaines par scène. Le joueur doit sentir sa vie avancer semaine par semaine, avec des jalons mensuels. Utilise "weeksAdvanced" dans le JSON (ex: 2 pour 2 semaines).
+2bis. CHANGEMENT DE PAYS/VILLE : Le joueur peut déménager ou s'installer dans une nouvelle ville à tout moment. Si le joueur choisit de déménager, utilise "city" dans le JSON avec le nom de la nouvelle ville. Les opportunités changent selon la ville.
 2. INVESTISSEMENTS : Le joueur peut investir dans ABSOLUMENT TOUT ce qu'il veut — immobilier, trading, actions, crypto, startups, restaurants, agences, franchises, usines, œuvres d'art, tout. Aucune restriction arbitraire.
 3. MULTI-BUSINESS : Le joueur peut posséder autant d'entreprises et d'actifs simultanément qu'il le souhaite. L'accumulation est illimitée.
 4. CONSÉQUENCES RÉELLES : Une mauvaise décision financière a des conséquences réelles. L'IA ne protège jamais le joueur.
@@ -1434,7 +1503,7 @@ MOTEUR LITTÉRAIRE : Précision financière de Michael Lewis (l'argent comme ave
 
 FORMAT DE RÉPONSE OBLIGATOIRE :
 Écris d'abord le texte narratif (3-5 paragraphes, vivants et précis), puis termine TOUJOURS par un objet JSON sur une seule ligne :
-{"choices":["Choix 1","Choix 2","Choix 3","Choix 4"],"stats":{"capital":NOUVEAU_CAPITAL,"income":NOUVEAU_REVENU_MENSUEL,"wealth":NOUVEAU_PATRIMOINE,"sante":NOUVELLE_SANTE,"bonheur":NOUVEAU_BONHEUR,"reputation":NOUVELLE_REPUTATION,"reseau":NOUVEAU_RESEAU,"dettes":NOUVELLES_DETTES,"scoreCredit":NOUVEAU_SCORE_CREDIT_OU_null,"monthsAdvanced":MOIS_ECOULES,"newAsset":"NOM_ACTIF_ACQUIS_OU_null","removeAsset":"NOM_ACTIF_VENDU_OU_null"}}
+{"choices":["Choix 1","Choix 2","Choix 3","Choix 4"],"stats":{"capital":NOUVEAU_CAPITAL,"income":NOUVEAU_REVENU_MENSUEL,"wealth":NOUVEAU_PATRIMOINE,"sante":NOUVELLE_SANTE,"bonheur":NOUVEAU_BONHEUR,"reputation":NOUVELLE_REPUTATION,"reseau":NOUVEAU_RESEAU,"dettes":NOUVELLES_DETTES,"scoreCredit":NOUVEAU_SCORE_CREDIT_OU_null,"weeksAdvanced":SEMAINES_ECOULEES,"city":NOUVELLE_VILLE_OU_null,"newAsset":"NOM_ACTIF_ACQUIS_OU_null","removeAsset":"NOM_ACTIF_VENDU_OU_null"}}
 
 Les 4 choix doivent être des décisions réelles, concrètes, situées dans le contexte actuel. Pas de choix génériques.`;
 }
