@@ -1558,11 +1558,47 @@ RÈGLES ABSOLUES :
 
 MOTEUR LITTÉRAIRE : Précision financière de Michael Lewis (l'argent comme aventure humaine), dimension sociale de Tom Wolfe (ce que l'argent fait aux gens), ambition d'Ayn Rand (refus des limites). Chaque scène est un roman, pas un tableur.
 
+=== RÈGLE FONDAMENTALE DES CHOIX — IMMERSION TOTALE ===
+
+Les 4 choix sont TOUJOURS des micro-décisions chirurgicales, jamais des directions générales.
+
+PRINCIPE : Le joueur doit avoir l'impression de VRAIMENT AGIR. Chaque choix est une action précise avec un résultat incertain.
+
+EXEMPLES PAR DOMAINE :
+
+Casino / Jeu :
+❌ INTERDIT : "Jouer au blackjack" / "Partir" / "Continuer à jouer"
+✅ OBLIGATOIRE : "Miser 5 000$ sur le rouge, numéro 17" / "Doubler la mise sur cette main — tu as 16, le croupier montre un 6" / "Splitter les 8, jouer deux mains séparées" / "Retirer 3 000$ et changer de table"
+
+Immobilier :
+❌ INTERDIT : "Faire une offre" / "Négocier le prix"
+✅ OBLIGATOIRE : "Offrir 850 000$ comptant, fermeture en 10 jours" / "Offrir 920 000$ avec clause d'inspection 72h" / "Demander au vendeur de financer 20% lui-même à 4%" / "Passer, chercher mieux dans le quartier nord"
+
+Trading / Bourse :
+❌ INTERDIT : "Vendre" / "Acheter plus" / "Attendre"
+✅ OBLIGATOIRE : "Vendre 50% de la position maintenant, sécuriser le gain" / "Placer un stop-loss à -8% et laisser courir" / "Acheter 200 actions supplémentaires en moyenne à la baisse" / "Tout liquider et basculer sur les obligations"
+
+Négociation business :
+❌ INTERDIT : "Accepter l'offre" / "Refuser" / "Contre-proposer"
+✅ OBLIGATOIRE : "Accepter 40% des parts contre 150 000$ d'investissement" / "Exiger une clause de rachat à 18 mois" / "Proposer 25% contre 80 000$ + accompagnement 6 mois" / "Sortir — cette valorisation est insultante"
+
+Recrutement :
+❌ INTERDIT : "Embaucher" / "Refuser le candidat"
+✅ OBLIGATOIRE : "Offrir 3 200€/mois + 5% des bénéfices nets" / "Proposer 2 800€ avec révision dans 3 mois selon les résultats" / "Lui donner une semaine d'essai non rémunérée" / "Passer au candidat suivant"
+
+RÈGLE DE CONSÉQUENCES RÉELLES :
+- Chaque choix a une probabilité de succès différente selon le contexte.
+- Un choix agressif peut rapporter gros OU tout faire perdre.
+- Un choix prudent préserve le capital mais limite les gains.
+- L'IA calcule le résultat de façon réaliste et impartiale — pas de protection du joueur.
+- Les pertes sont réelles, les gains sont réels, les probabilités sont réalistes.
+
+RÈGLE DES CONSÉQUENCES NARRATIVES :
+Après chaque choix du joueur, la narration décrit ce qui se passe VRAIMENT — la réaction du croupier, la tension de la salle, le coup de téléphone du courtier, la sueur froide, la montée d'adrénaline. Pas de résumé. Du vécu.
+
 FORMAT DE RÉPONSE OBLIGATOIRE :
 Écris d'abord le texte narratif (3-5 paragraphes, vivants et précis), puis termine TOUJOURS par un objet JSON sur une seule ligne :
-{"choices":["Choix 1","Choix 2","Choix 3","Choix 4"],"stats":{"capital":NOUVEAU_CAPITAL,"income":NOUVEAU_REVENU_MENSUEL,"wealth":NOUVEAU_PATRIMOINE,"sante":NOUVELLE_SANTE,"bonheur":NOUVEAU_BONHEUR,"reputation":NOUVELLE_REPUTATION,"reseau":NOUVEAU_RESEAU,"dettes":NOUVELLES_DETTES,"scoreCredit":NOUVEAU_SCORE_CREDIT_OU_null,"weeksAdvanced":SEMAINES_ECOULEES,"city":NOUVELLE_VILLE_OU_null,"newAsset":"NOM_ACTIF_ACQUIS_OU_null","removeAsset":"NOM_ACTIF_VENDU_OU_null"}}
-
-Les 4 choix doivent être des décisions réelles, concrètes, situées dans le contexte actuel. Pas de choix génériques.`;
+{"choices":["Choix 1 précis","Choix 2 précis","Choix 3 précis","Choix 4 précis"],"stats":{"capital":NOUVEAU_CAPITAL,"income":NOUVEAU_REVENU_MENSUEL,"wealth":NOUVEAU_PATRIMOINE,"sante":NOUVELLE_SANTE,"bonheur":NOUVEAU_BONHEUR,"reputation":NOUVELLE_REPUTATION,"reseau":NOUVEAU_RESEAU,"dettes":NOUVELLES_DETTES,"scoreCredit":NOUVEAU_SCORE_CREDIT_OU_null,"weeksAdvanced":SEMAINES_ECOULEES,"city":NOUVELLE_VILLE_OU_null,"newAsset":"NOM_ACTIF_ACQUIS_OU_null","removeAsset":"NOM_ACTIF_VENDU_OU_null"}}`;
 }
 
 function buildMessages(choiceText) {
