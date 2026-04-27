@@ -31,11 +31,10 @@
     min-height: 100vh;
   }
 
-  /* ─── ÉCRANS ─── */
   .screen { display: none; min-height: 100vh; }
   .screen.active { display: flex; flex-direction: column; }
 
-  /* ─── INTRO ─── */
+  /* INTRO */
   #screen-intro {
     align-items: center;
     justify-content: center;
@@ -78,9 +77,7 @@
     letter-spacing: -2px;
   }
 
-  .intro-title span {
-    color: var(--gold);
-  }
+  .intro-title span { color: var(--gold); }
 
   .intro-subtitle {
     font-family: 'EB Garamond', serif;
@@ -116,75 +113,9 @@
     font-weight: 700;
   }
 
-  .btn-primary:hover {
-    background: var(--gold-light);
-    transform: translateY(-1px);
-  }
+  .btn-primary:hover { background: var(--gold-light); transform: translateY(-1px); }
 
-  /* ─── CODE ADMIN ─── */
-  .code-section {
-    margin-top: 32px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .code-toggle {
-    font-family: 'Space Mono', monospace;
-    font-size: 11px;
-    color: var(--text-dim);
-    cursor: pointer;
-    text-decoration: underline;
-    background: none;
-    border: none;
-    color: var(--text-dim);
-  }
-
-  .code-input-row {
-    display: none;
-    gap: 8px;
-    align-items: center;
-  }
-
-  .code-input-row.visible { display: flex; }
-
-  .code-input {
-    background: var(--navy-mid);
-    border: 1px solid var(--navy-light);
-    color: var(--text);
-    padding: 8px 16px;
-    font-family: 'Space Mono', monospace;
-    font-size: 13px;
-    width: 220px;
-    outline: none;
-  }
-
-  .code-input:focus { border-color: var(--gold); }
-
-  .code-submit {
-    background: var(--navy-light);
-    border: 1px solid var(--gold);
-    color: var(--gold);
-    padding: 8px 16px;
-    font-family: 'Space Mono', monospace;
-    font-size: 11px;
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-
-  .code-submit:hover { background: var(--gold); color: var(--navy); }
-
-  #code-status {
-    font-family: 'Space Mono', monospace;
-    font-size: 11px;
-    height: 16px;
-  }
-
-  .status-ok { color: var(--green); }
-  .status-err { color: var(--red); }
-
-  /* ─── CRÉATION PERSONNAGE ─── */
+  /* CRÉATION */
   #screen-create {
     padding: 40px 20px 60px;
     max-width: 680px;
@@ -192,23 +123,9 @@
     width: 100%;
   }
 
-  .create-header {
-    margin-bottom: 48px;
-  }
-
-  .create-header h2 {
-    font-family: 'Playfair Display', serif;
-    font-size: 36px;
-    font-weight: 400;
-    color: var(--white);
-    margin-bottom: 8px;
-  }
-
-  .create-header p {
-    font-size: 16px;
-    color: var(--text-dim);
-    font-style: italic;
-  }
+  .create-header { margin-bottom: 48px; }
+  .create-header h2 { font-family: 'Playfair Display', serif; font-size: 36px; font-weight: 400; color: var(--white); margin-bottom: 8px; }
+  .create-header p { font-size: 16px; color: var(--text-dim); font-style: italic; }
 
   .section-label {
     font-family: 'Space Mono', monospace;
@@ -236,46 +153,13 @@
     position: relative;
   }
 
-  .choice-card:hover {
-    border-color: var(--gold);
-    background: var(--navy-light);
-  }
+  .choice-card:hover { border-color: var(--gold); background: var(--navy-light); }
+  .choice-card.selected { border-color: var(--gold); background: rgba(201,168,76,0.08); }
+  .choice-card.selected::after { content: '✓'; position: absolute; top: 12px; right: 14px; color: var(--gold); font-family: 'Space Mono', monospace; font-size: 14px; }
 
-  .choice-card.selected {
-    border-color: var(--gold);
-    background: rgba(201,168,76,0.08);
-  }
-
-  .choice-card.selected::after {
-    content: '✓';
-    position: absolute;
-    top: 12px;
-    right: 14px;
-    color: var(--gold);
-    font-family: 'Space Mono', monospace;
-    font-size: 14px;
-  }
-
-  .choice-card-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 17px;
-    color: var(--white);
-    margin-bottom: 6px;
-  }
-
-  .choice-card-desc {
-    font-size: 14px;
-    color: var(--text-dim);
-    line-height: 1.5;
-  }
-
-  .choice-card-tag {
-    font-family: 'Space Mono', monospace;
-    font-size: 10px;
-    color: var(--gold);
-    margin-bottom: 8px;
-    display: block;
-  }
+  .choice-card-title { font-family: 'Playfair Display', serif; font-size: 17px; color: var(--white); margin-bottom: 6px; }
+  .choice-card-desc { font-size: 14px; color: var(--text-dim); line-height: 1.5; }
+  .choice-card-tag { font-family: 'Space Mono', monospace; font-size: 10px; color: var(--gold); margin-bottom: 8px; display: block; }
 
   .name-input {
     width: 100%;
@@ -310,13 +194,9 @@
   .btn-start:hover:not(:disabled) { background: var(--gold-light); }
   .btn-start:disabled { opacity: 0.4; cursor: default; }
 
-  /* ─── JEU ─── */
-  #screen-game {
-    flex-direction: column;
-    min-height: 100vh;
-  }
+  /* JEU */
+  #screen-game { flex-direction: column; min-height: 100vh; }
 
-  /* Header */
   .game-header {
     background: var(--navy-mid);
     border-bottom: 1px solid var(--navy-light);
@@ -336,49 +216,17 @@
     gap: 16px;
   }
 
-  .header-brand {
-    font-family: 'Playfair Display', serif;
-    font-size: 20px;
-    font-weight: 700;
-    color: var(--gold);
-    flex-shrink: 0;
-  }
+  .header-brand { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; color: var(--gold); flex-shrink: 0; }
 
-  .header-stats {
-    display: flex;
-    gap: 20px;
-    align-items: center;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
+  .header-stats { display: flex; gap: 20px; align-items: center; flex-wrap: wrap; justify-content: center; }
 
-  .stat-chip {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1px;
-  }
-
-  .stat-chip-label {
-    font-family: 'Space Mono', monospace;
-    font-size: 9px;
-    letter-spacing: 1.5px;
-    color: var(--text-dim);
-    text-transform: uppercase;
-  }
-
-  .stat-chip-value {
-    font-family: 'Space Mono', monospace;
-    font-size: 13px;
-    font-weight: 700;
-    color: var(--white);
-  }
-
+  .stat-chip { display: flex; flex-direction: column; align-items: center; gap: 1px; }
+  .stat-chip-label { font-family: 'Space Mono', monospace; font-size: 9px; letter-spacing: 1.5px; color: var(--text-dim); text-transform: uppercase; }
+  .stat-chip-value { font-family: 'Space Mono', monospace; font-size: 13px; font-weight: 700; color: var(--white); }
   .stat-chip-value.gold { color: var(--gold); }
   .stat-chip-value.green { color: var(--green); }
   .stat-chip-value.red { color: var(--red); }
 
-  /* Actifs */
   .header-assets-toggle {
     font-family: 'Space Mono', monospace;
     font-size: 10px;
@@ -391,62 +239,18 @@
     transition: all 0.2s;
     flex-shrink: 0;
   }
-
   .header-assets-toggle:hover { border-color: var(--gold); color: var(--gold); }
 
-  /* Panel actifs */
-  #assets-panel {
-    background: var(--navy-mid);
-    border-bottom: 1px solid var(--navy-light);
-    display: none;
-    padding: 16px 20px;
-  }
-
+  #assets-panel { background: var(--navy-mid); border-bottom: 1px solid var(--navy-light); display: none; padding: 16px 20px; }
   #assets-panel.open { display: block; }
 
-  .assets-inner {
-    max-width: 900px;
-    margin: 0 auto;
-  }
+  .assets-inner { max-width: 900px; margin: 0 auto; }
+  .assets-title { font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 3px; color: var(--gold); text-transform: uppercase; margin-bottom: 12px; }
+  .assets-list { display: flex; flex-wrap: wrap; gap: 8px; }
+  .asset-tag { background: rgba(201,168,76,0.1); border: 1px solid rgba(201,168,76,0.3); padding: 4px 12px; font-family: 'Space Mono', monospace; font-size: 11px; color: var(--gold-light); }
+  .assets-empty { font-style: italic; color: var(--text-dim); font-size: 14px; }
 
-  .assets-title {
-    font-family: 'Space Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 3px;
-    color: var(--gold);
-    text-transform: uppercase;
-    margin-bottom: 12px;
-  }
-
-  .assets-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-  }
-
-  .asset-tag {
-    background: rgba(201,168,76,0.1);
-    border: 1px solid rgba(201,168,76,0.3);
-    padding: 4px 12px;
-    font-family: 'Space Mono', monospace;
-    font-size: 11px;
-    color: var(--gold-light);
-  }
-
-  .assets-empty {
-    font-style: italic;
-    color: var(--text-dim);
-    font-size: 14px;
-  }
-
-  /* Zone narrative */
-  .game-main {
-    flex: 1;
-    padding: 40px 20px 60px;
-    max-width: 700px;
-    margin: 0 auto;
-    width: 100%;
-  }
+  .game-main { flex: 1; padding: 40px 20px 60px; max-width: 700px; margin: 0 auto; width: 100%; }
 
   .temporal-stamp {
     font-family: 'Space Mono', monospace;
@@ -459,21 +263,9 @@
     align-items: center;
     gap: 12px;
   }
+  .temporal-stamp::after { content: ''; flex: 1; height: 1px; background: linear-gradient(to right, rgba(201,168,76,0.3), transparent); }
 
-  .temporal-stamp::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: linear-gradient(to right, rgba(201,168,76,0.3), transparent);
-  }
-
-  #narrative-zone {
-    font-size: 20px;
-    line-height: 1.85;
-    color: var(--text);
-    margin-bottom: 40px;
-    min-height: 80px;
-  }
+  #narrative-zone { font-size: 20px; line-height: 1.85; color: var(--text); margin-bottom: 40px; min-height: 80px; }
 
   .cursor {
     display: inline-block;
@@ -484,42 +276,15 @@
     animation: blink 0.8s step-end infinite;
     margin-left: 2px;
   }
+  @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 
-  @keyframes blink {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0; }
-  }
-
-  /* Loader */
-  .loading-dots {
-    display: flex;
-    gap: 8px;
-    align-items: center;
-    margin: 16px 0;
-  }
-
-  .loading-dots span {
-    width: 6px;
-    height: 6px;
-    background: var(--gold);
-    border-radius: 50%;
-    animation: dot-pulse 1.4s ease-in-out infinite;
-  }
-
+  .loading-dots { display: flex; gap: 8px; align-items: center; margin: 16px 0; }
+  .loading-dots span { width: 6px; height: 6px; background: var(--gold); border-radius: 50%; animation: dot-pulse 1.4s ease-in-out infinite; }
   .loading-dots span:nth-child(2) { animation-delay: 0.2s; }
   .loading-dots span:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes dot-pulse { 0%, 80%, 100% { opacity: 0.2; transform: scale(0.8); } 40% { opacity: 1; transform: scale(1); } }
 
-  @keyframes dot-pulse {
-    0%, 80%, 100% { opacity: 0.2; transform: scale(0.8); }
-    40% { opacity: 1; transform: scale(1); }
-  }
-
-  /* Boutons de choix */
-  #choices-zone {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
+  #choices-zone { display: flex; flex-direction: column; gap: 10px; }
 
   .choice-btn {
     background: var(--navy-mid);
@@ -535,30 +300,11 @@
     position: relative;
     overflow: hidden;
   }
+  .choice-btn::before { content: ''; position: absolute; left: 0; top: 0; height: 100%; width: 3px; background: var(--gold); transform: scaleY(0); transition: transform 0.18s; }
+  .choice-btn:hover { border-color: var(--gold); background: var(--navy-light); padding-left: 28px; }
+  .choice-btn:hover::before { transform: scaleY(1); }
 
-  .choice-btn::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 0;
-    height: 100%;
-    width: 3px;
-    background: var(--gold);
-    transform: scaleY(0);
-    transition: transform 0.18s;
-  }
-
-  .choice-btn:hover {
-    border-color: var(--gold);
-    background: var(--navy-light);
-    padding-left: 28px;
-  }
-
-  .choice-btn:hover::before {
-    transform: scaleY(1);
-  }
-
-  /* Paywall */
+  /* PAYWALL */
   #paywall-overlay {
     display: none;
     position: fixed;
@@ -570,53 +316,14 @@
     padding: 20px;
     text-align: center;
   }
-
   #paywall-overlay.visible { display: flex; }
 
-  .paywall-box {
-    max-width: 480px;
-    width: 100%;
-  }
-
-  .paywall-count {
-    font-family: 'Space Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 3px;
-    color: var(--gold);
-    text-transform: uppercase;
-    margin-bottom: 24px;
-  }
-
-  .paywall-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 36px;
-    font-weight: 700;
-    color: var(--white);
-    margin-bottom: 16px;
-  }
-
-  .paywall-text {
-    font-size: 17px;
-    color: var(--text-dim);
-    font-style: italic;
-    margin-bottom: 36px;
-    line-height: 1.6;
-  }
-
-  .paywall-price {
-    font-family: 'Space Mono', monospace;
-    font-size: 32px;
-    font-weight: 700;
-    color: var(--gold);
-    margin-bottom: 8px;
-  }
-
-  .paywall-period {
-    font-family: 'Space Mono', monospace;
-    font-size: 11px;
-    color: var(--text-dim);
-    margin-bottom: 32px;
-  }
+  .paywall-box { max-width: 480px; width: 100%; }
+  .paywall-count { font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: 3px; color: var(--gold); text-transform: uppercase; margin-bottom: 24px; }
+  .paywall-title { font-family: 'Playfair Display', serif; font-size: 36px; font-weight: 700; color: var(--white); margin-bottom: 16px; }
+  .paywall-text { font-size: 17px; color: var(--text-dim); font-style: italic; margin-bottom: 36px; line-height: 1.6; }
+  .paywall-price { font-family: 'Space Mono', monospace; font-size: 32px; font-weight: 700; color: var(--gold); margin-bottom: 8px; }
+  .paywall-period { font-family: 'Space Mono', monospace; font-size: 11px; color: var(--text-dim); margin-bottom: 32px; }
 
   .btn-subscribe {
     display: block;
@@ -635,114 +342,33 @@
     text-decoration: none;
     margin-bottom: 16px;
   }
-
   .btn-subscribe:hover { background: var(--gold-light); }
 
-  .paywall-unlock {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-    margin-top: 24px;
-  }
+  .paywall-unlock { display: flex; flex-direction: column; align-items: center; gap: 8px; margin-top: 24px; }
+  .paywall-code-row { display: flex; gap: 8px; }
 
-  .paywall-code-row {
-    display: flex;
-    gap: 8px;
-  }
+  .code-input { background: var(--navy-mid); border: 1px solid var(--navy-light); color: var(--text); padding: 8px 16px; font-family: 'Space Mono', monospace; font-size: 13px; width: 220px; outline: none; }
+  .code-input:focus { border-color: var(--gold); }
 
-  /* Admin badge */
-  #admin-badge {
-    display: none;
-    font-family: 'Space Mono', monospace;
-    font-size: 9px;
-    letter-spacing: 2px;
-    color: var(--gold);
-    background: rgba(201,168,76,0.1);
-    border: 1px solid rgba(201,168,76,0.3);
-    padding: 2px 8px;
-  }
+  .code-submit { background: var(--navy-light); border: 1px solid var(--gold); color: var(--gold); padding: 8px 16px; font-family: 'Space Mono', monospace; font-size: 11px; cursor: pointer; transition: all 0.2s; }
+  .code-submit:hover { background: var(--gold); color: var(--navy); }
 
-  /* Stats détail */
-  .stats-bar-group {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    margin: 12px 0;
-  }
+  #admin-badge { display: none; font-family: 'Space Mono', monospace; font-size: 9px; letter-spacing: 2px; color: var(--gold); background: rgba(201,168,76,0.1); border: 1px solid rgba(201,168,76,0.3); padding: 2px 8px; }
 
-  .stats-bar-row {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-
-  .stats-bar-label {
-    font-family: 'Space Mono', monospace;
-    font-size: 10px;
-    color: var(--text-dim);
-    width: 80px;
-    flex-shrink: 0;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-  }
-
-  .stats-bar-track {
-    flex: 1;
-    height: 4px;
-    background: var(--navy-light);
-    position: relative;
-  }
-
-  .stats-bar-fill {
-    height: 100%;
-    background: var(--gold);
-    transition: width 0.6s ease;
-  }
-
+  .stats-bar-group { display: flex; flex-direction: column; gap: 6px; margin: 12px 0; }
+  .stats-bar-row { display: flex; align-items: center; gap: 12px; }
+  .stats-bar-label { font-family: 'Space Mono', monospace; font-size: 10px; color: var(--text-dim); width: 80px; flex-shrink: 0; text-transform: uppercase; letter-spacing: 1px; }
+  .stats-bar-track { flex: 1; height: 4px; background: var(--navy-light); position: relative; }
+  .stats-bar-fill { height: 100%; background: var(--gold); transition: width 0.6s ease; }
   .stats-bar-fill.green { background: var(--green); }
   .stats-bar-fill.red { background: var(--red); }
+  .stats-bar-val { font-family: 'Space Mono', monospace; font-size: 11px; color: var(--white); width: 30px; text-align: right; flex-shrink: 0; }
 
-  .stats-bar-val {
-    font-family: 'Space Mono', monospace;
-    font-size: 11px;
-    color: var(--white);
-    width: 30px;
-    text-align: right;
-    flex-shrink: 0;
-  }
+  .game-footer { background: var(--navy-mid); border-top: 1px solid var(--navy-light); padding: 12px 20px; text-align: center; }
+  .footer-inner { max-width: 900px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
+  .footer-counter { font-family: 'Space Mono', monospace; font-size: 11px; color: var(--text-dim); }
+  .footer-brand { font-family: 'Space Mono', monospace; font-size: 10px; color: var(--text-dim); text-decoration: none; opacity: 0.5; }
 
-  /* Footer */
-  .game-footer {
-    background: var(--navy-mid);
-    border-top: 1px solid var(--navy-light);
-    padding: 12px 20px;
-    text-align: center;
-  }
-
-  .footer-inner {
-    max-width: 900px;
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  .footer-counter {
-    font-family: 'Space Mono', monospace;
-    font-size: 11px;
-    color: var(--text-dim);
-  }
-
-  .footer-brand {
-    font-family: 'Space Mono', monospace;
-    font-size: 10px;
-    color: var(--text-dim);
-    text-decoration: none;
-    opacity: 0.5;
-  }
-
-  /* Responsive */
   @media (max-width: 600px) {
     .header-stats { gap: 12px; }
     .stat-chip-value { font-size: 12px; }
@@ -750,19 +376,16 @@
     .choice-btn { font-size: 16px; padding: 14px 16px; }
     .header-brand { font-size: 16px; }
   }
-
   @media (max-width: 420px) {
     .header-stats { gap: 8px; }
     .stat-chip { display: none; }
-    .stat-chip:nth-child(1),
-    .stat-chip:nth-child(2),
-    .stat-chip:nth-child(3) { display: flex; }
+    .stat-chip:nth-child(1), .stat-chip:nth-child(2), .stat-chip:nth-child(3) { display: flex; }
   }
 </style>
 </head>
 <body>
 
-<!-- ══════════ ÉCRAN INTRO ══════════ -->
+<!-- INTRO -->
 <div id="screen-intro" class="screen active">
   <div style="position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;width:100%;">
     <p class="intro-tagline">Récit Games — Roman interactif</p>
@@ -775,30 +398,19 @@
     </p>
     <button class="btn-primary" onclick="showCreate()">Commencer</button>
     <button class="btn-primary" id="btn-reprendre" onclick="reprendrePartie()" style="display:none;margin-top:12px;background:var(--navy-mid);border:1px solid var(--gold);color:var(--gold);">Reprendre ma partie</button>
-
-    <div id="api-key-zone" style="margin-top:32px;display:flex;flex-direction:column;align-items:center;gap:8px;">
-      <input type="password" id="api-key-input"
-        placeholder="Clé API Anthropic (sk-ant-...)"
-        style="width:280px;padding:8px 12px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);color:#c9a84c;font-family:monospace;font-size:12px;outline:none;border-radius:2px;"
-        oninput="sauvegarderCleApi(this.value)"
-      />
-      <div id="api-key-status" style="font-size:11px;color:#888;font-family:monospace;height:14px;"></div>
-    </div>
   </div>
 </div>
 
-<!-- ══════════ ÉCRAN CRÉATION ══════════ -->
+<!-- CRÉATION -->
 <div id="screen-create" class="screen">
   <div class="create-header">
     <h2>Qui es-tu ?</h2>
     <p>Chaque vie commence quelque part. La tienne commence ici.</p>
   </div>
 
-  <!-- Nom -->
   <span class="section-label">Ton prénom</span>
   <input class="name-input" type="text" id="player-name" placeholder="Entre ton prénom..." maxlength="30">
 
-  <!-- Ville -->
   <span class="section-label">Ta ville de départ</span>
   <div class="choice-grid" id="city-grid">
     <div class="choice-card" data-group="city" data-val="New York" onclick="selectCard(this)">
@@ -833,7 +445,6 @@
     </div>
   </div>
 
-  <!-- Capital -->
   <span class="section-label">Ton capital de départ</span>
   <div class="choice-grid" id="capital-grid">
     <div class="choice-card" data-group="capital" data-val="0" data-label="Rien (0 €)" onclick="selectCard(this)">
@@ -853,7 +464,6 @@
     </div>
   </div>
 
-  <!-- Profil -->
   <span class="section-label">Ton profil entrepreneurial</span>
   <div class="choice-grid" id="profile-grid">
     <div class="choice-card" data-group="profile" data-val="Visionnaire" onclick="selectCard(this)">
@@ -881,10 +491,8 @@
   <button class="btn-start" id="btn-start" onclick="startGame()" disabled>Commencer ma vie →</button>
 </div>
 
-<!-- ══════════ ÉCRAN JEU ══════════ -->
+<!-- JEU -->
 <div id="screen-game" class="screen">
-
-  <!-- Header stats -->
   <header class="game-header">
     <div class="header-inner">
       <span class="header-brand">F<span style="color:var(--text-dim);font-size:14px">ORTUNE</span></span>
@@ -925,33 +533,30 @@
     </div>
   </header>
 
-  <!-- Panel actifs -->
   <div id="assets-panel">
     <div class="assets-inner">
-      <!-- Repère temporel dans le panneau -->
       <div style="display:flex;gap:16px;flex-wrap:wrap;margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid rgba(201,168,76,0.15);">
         <div style="display:flex;flex-direction:column;gap:2px;">
-          <span style="font-family:var(--mono,monospace);font-size:9px;letter-spacing:2px;color:var(--text-dim,#8a8a7a);text-transform:uppercase;">Semaine</span>
-          <span style="font-family:var(--mono,monospace);font-size:14px;font-weight:700;color:var(--gold,#c9a84c);" id="panel-week">S1</span>
+          <span style="font-family:monospace;font-size:9px;letter-spacing:2px;color:var(--text-dim);text-transform:uppercase;">Semaine</span>
+          <span style="font-family:monospace;font-size:14px;font-weight:700;color:var(--gold);" id="panel-week">S1</span>
         </div>
         <div style="display:flex;flex-direction:column;gap:2px;">
-          <span style="font-family:var(--mono,monospace);font-size:9px;letter-spacing:2px;color:var(--text-dim,#8a8a7a);text-transform:uppercase;">Saison</span>
-          <span style="font-family:var(--mono,monospace);font-size:14px;font-weight:700;color:var(--white,#f8f6f0);" id="panel-season">Printemps</span>
+          <span style="font-family:monospace;font-size:9px;letter-spacing:2px;color:var(--text-dim);text-transform:uppercase;">Saison</span>
+          <span style="font-family:monospace;font-size:14px;font-weight:700;color:var(--white);" id="panel-season">Printemps</span>
         </div>
         <div style="display:flex;flex-direction:column;gap:2px;">
-          <span style="font-family:var(--mono,monospace);font-size:9px;letter-spacing:2px;color:var(--text-dim,#8a8a7a);text-transform:uppercase;">Année</span>
-          <span style="font-family:var(--mono,monospace);font-size:14px;font-weight:700;color:var(--white,#f8f6f0);" id="panel-year">2025</span>
+          <span style="font-family:monospace;font-size:9px;letter-spacing:2px;color:var(--text-dim);text-transform:uppercase;">Année</span>
+          <span style="font-family:monospace;font-size:14px;font-weight:700;color:var(--white);" id="panel-year">2025</span>
         </div>
         <div style="display:flex;flex-direction:column;gap:2px;">
-          <span style="font-family:var(--mono,monospace);font-size:9px;letter-spacing:2px;color:var(--text-dim,#8a8a7a);text-transform:uppercase;">Ville</span>
-          <span style="font-family:var(--mono,monospace);font-size:14px;font-weight:700;color:var(--white,#f8f6f0);" id="panel-city">—</span>
+          <span style="font-family:monospace;font-size:9px;letter-spacing:2px;color:var(--text-dim);text-transform:uppercase;">Ville</span>
+          <span style="font-family:monospace;font-size:14px;font-weight:700;color:var(--white);" id="panel-city">—</span>
         </div>
       </div>
       <div class="assets-title">Mes actifs & entreprises</div>
       <div class="assets-list" id="assets-list">
         <span class="assets-empty">Aucun actif pour l'instant.</span>
       </div>
-      <!-- Barres de vie -->
       <div class="stats-bar-group" style="margin-top:16px;">
         <div class="stats-bar-row">
           <span class="stats-bar-label">Santé</span>
@@ -974,41 +579,38 @@
           <span class="stats-bar-val" id="val-reseau">10</span>
         </div>
       </div>
-
-      <!-- Panneau banque -->
       <div style="margin-top:20px;border-top:1px solid rgba(201,168,76,0.15);padding-top:16px;">
         <div class="assets-title">Situation bancaire</div>
         <div style="display:flex;flex-direction:column;gap:8px;margin-top:10px;">
           <div style="display:flex;justify-content:space-between;align-items:center;">
-            <span style="font-family:var(--mono,monospace);font-size:10px;color:var(--text-dim,#8a8a7a);text-transform:uppercase;letter-spacing:1px;">Capital liquide</span>
-            <span style="font-family:var(--mono,monospace);font-size:13px;font-weight:700;color:var(--green,#2ecc71);" id="bank-capital">0 €</span>
+            <span style="font-family:monospace;font-size:10px;color:var(--text-dim);text-transform:uppercase;letter-spacing:1px;">Capital liquide</span>
+            <span style="font-family:monospace;font-size:13px;font-weight:700;color:var(--green);" id="bank-capital">0 €</span>
           </div>
           <div style="display:flex;justify-content:space-between;align-items:center;">
-            <span style="font-family:var(--mono,monospace);font-size:10px;color:var(--text-dim,#8a8a7a);text-transform:uppercase;letter-spacing:1px;">Revenus mensuels</span>
-            <span style="font-family:var(--mono,monospace);font-size:13px;font-weight:700;color:var(--white,#f8f6f0);" id="bank-income">0 €</span>
+            <span style="font-family:monospace;font-size:10px;color:var(--text-dim);text-transform:uppercase;letter-spacing:1px;">Revenus mensuels</span>
+            <span style="font-family:monospace;font-size:13px;font-weight:700;color:var(--white);" id="bank-income">0 €</span>
           </div>
           <div style="display:flex;justify-content:space-between;align-items:center;">
-            <span style="font-family:var(--mono,monospace);font-size:10px;color:var(--text-dim,#8a8a7a);text-transform:uppercase;letter-spacing:1px;">Patrimoine net</span>
-            <span style="font-family:var(--mono,monospace);font-size:13px;font-weight:700;color:var(--gold,#c9a84c);" id="bank-wealth">0 €</span>
+            <span style="font-family:monospace;font-size:10px;color:var(--text-dim);text-transform:uppercase;letter-spacing:1px;">Patrimoine net</span>
+            <span style="font-family:monospace;font-size:13px;font-weight:700;color:var(--gold);" id="bank-wealth">0 €</span>
           </div>
           <div style="display:flex;justify-content:space-between;align-items:center;">
-            <span style="font-family:var(--mono,monospace);font-size:10px;color:var(--text-dim,#8a8a7a);text-transform:uppercase;letter-spacing:1px;">Dettes totales</span>
-            <span style="font-family:var(--mono,monospace);font-size:13px;font-weight:700;color:var(--red,#e74c3c);" id="bank-dettes">0 €</span>
+            <span style="font-family:monospace;font-size:10px;color:var(--text-dim);text-transform:uppercase;letter-spacing:1px;">Dettes totales</span>
+            <span style="font-family:monospace;font-size:13px;font-weight:700;color:var(--red);" id="bank-dettes">0 €</span>
           </div>
           <div style="display:flex;justify-content:space-between;align-items:center;margin-top:4px;padding-top:8px;border-top:1px solid rgba(255,255,255,0.06);">
-            <span style="font-family:var(--mono,monospace);font-size:10px;color:var(--text-dim,#8a8a7a);text-transform:uppercase;letter-spacing:1px;">Score de crédit</span>
-            <span style="font-family:var(--mono,monospace);font-size:13px;font-weight:700;" id="bank-credit">650</span>
+            <span style="font-family:monospace;font-size:10px;color:var(--text-dim);text-transform:uppercase;letter-spacing:1px;">Score de crédit</span>
+            <span style="font-family:monospace;font-size:13px;font-weight:700;" id="bank-credit">650</span>
           </div>
-          <div style="height:4px;background:var(--navy-light,#1a3356);border-radius:2px;margin-top:2px;">
-            <div id="bank-credit-bar" style="height:100%;border-radius:2px;background:var(--gold,#c9a84c);width:45%;transition:width 0.6s ease;"></div>
+          <div style="height:4px;background:var(--navy-light);border-radius:2px;margin-top:2px;">
+            <div id="bank-credit-bar" style="height:100%;border-radius:2px;background:var(--gold);width:45%;transition:width 0.6s ease;"></div>
           </div>
-          <div style="font-family:var(--mono,monospace);font-size:10px;color:var(--text-dim,#8a8a7a);text-align:right;" id="bank-credit-label">Correct</div>
+          <div style="font-family:monospace;font-size:10px;color:var(--text-dim);text-align:right;" id="bank-credit-label">Correct</div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Zone narrative principale -->
   <main class="game-main">
     <div class="temporal-stamp" id="temporal-stamp">Printemps 2024 — 22 ans</div>
     <div id="narrative-zone"></div>
@@ -1023,7 +625,7 @@
   </footer>
 </div>
 
-<!-- ══════════ PAYWALL ══════════ -->
+<!-- PAYWALL -->
 <div id="paywall-overlay">
   <div class="paywall-box">
     <p class="paywall-count">Extrait terminé</p>
@@ -1034,7 +636,7 @@
     </p>
     <div class="paywall-price">7 €</div>
     <div class="paywall-period">par mois · accès à tous les Récit Games</div>
-    <a href="https://buy.stripe.com/test_8x2bJ05fU1yV3uKde1bZe00" class="btn-subscribe" target="_blank">S'abonner →</a>
+    <a href="https://buy.stripe.com/dRmdR90q9fKv8ku2jq04801" class="btn-subscribe" target="_blank">S'abonner →</a>
     <div class="paywall-unlock">
       <div class="paywall-code-row">
         <input class="code-input" type="text" id="paywall-code-field" placeholder="Code d'accès" maxlength="20">
@@ -1046,54 +648,21 @@
 </div>
 
 <script>
-// ════════════════════════════════════
-//  ÉTAT DU JEU
-// ════════════════════════════════════
 const SAVE_KEY = 'fortune_save_v1';
 const PAYWALL_LIMIT = 20;
-const STRIPE_URL = 'https://buy.stripe.com/test_8x2bJ05fU1yV3uKde1bZe00';
-const API_URL = 'https://recitgames-api.vercel.app/api/verify-code';
-
-// Année de début du jeu (toujours 2 ans avant maintenant, ou fixe)
+const STRIPE_URL = 'https://buy.stripe.com/dRmdR90q9fKv8ku2jq04801';
+const API_CODES_URL = 'https://recitgames-api.vercel.app/api/verify-code';
 const START_YEAR = 2025;
 
-const SEASONS = ['Hiver', 'Printemps', 'Été', 'Automne'];
 function getSeason(month) {
-  // month 0-11
   if (month < 3) return 'Hiver';
   if (month < 6) return 'Printemps';
   if (month < 9) return 'Été';
   return 'Automne';
 }
 
-// Gestion clé API
-function sauvegarderCleApi(val) {
-  val = val.trim();
-  G.apiKey = val;
-  localStorage.setItem('fortune_api_key', val);
-  const st = document.getElementById('api-key-status');
-  if(st) st.textContent = val.startsWith('sk-ant-') ? '✓ Clé valide' : val.length > 0 ? '⚠ Format inattendu' : '';
-}
+window.addEventListener('DOMContentLoaded', () => { chargerPartie(); });
 
-function chargerCleApi() {
-  const saved = localStorage.getItem('fortune_api_key') || '';
-  G.apiKey = saved;
-  const input = document.getElementById('api-key-input');
-  if(input) {
-    input.value = saved;
-    const zone = document.getElementById('api-key-zone');
-    if(zone) zone.style.display = saved.startsWith('sk-ant-') ? 'none' : 'flex';
-  }
-}
-
-window.addEventListener('DOMContentLoaded', () => {
-  chargerCleApi();
-  chargerPartie();
-});
-
-// ════════════════════════════════════
-//  SAUVEGARDE
-// ════════════════════════════════════
 function sauvegarderPartie() {
   if (!G.gameStarted) return;
   const data = {
@@ -1102,7 +671,7 @@ function sauvegarderPartie() {
     capital: G.capital, income: G.income, wealth: G.wealth, dettes: G.dettes, scoreCredit: G.scoreCredit,
     sante: G.sante, bonheur: G.bonheur, reputation: G.reputation, reseau: G.reseau,
     assets: G.assets, history: G.history.slice(-15),
-    conversation: G.conversation.slice(-30), // 30 derniers messages max
+    conversation: G.conversation.slice(-30),
     nbChoix: G.nbChoix, adminMode: G.adminMode, gameStarted: true,
     date: new Date().toISOString()
   };
@@ -1124,7 +693,6 @@ function chargerPartie() {
       history: s.history || [], conversation: s.conversation || [], nbChoix: s.nbChoix || 0,
       adminMode: s.adminMode || false, gameStarted: true
     });
-    // Afficher le bouton Reprendre sur l'écran intro
     const btn = document.getElementById('btn-reprendre');
     if (btn) btn.style.display = 'block';
   } catch(e) { console.error('Erreur chargement:', e); }
@@ -1134,10 +702,7 @@ function reprendrePartie() {
   if (!G.gameStarted) return;
   showScreen('game');
   updateHUD();
-
   if (G.conversation.length > 0) {
-    // La conversation est sauvegardée : on envoie un message de reprise
-    // qui sera ajouté à la suite de la vraie conversation
     const resumeMsg = {
       role: 'user',
       content: `REPRISE STRICTE — reprends EXACTEMENT là où on s'était arrêtés, même scène, même situation.
@@ -1147,49 +712,21 @@ Actifs : ${G.assets.length ? G.assets.join(', ') : 'aucun'}
 RÈGLE ABSOLUE : aucune progression automatique, aucune décision prise à ma place. Reprends la même scène et propose les 4 choix.`
     };
     G.conversation.push(resumeMsg);
-    generateNarrative(null); // null = pas de nouveau message, utiliser G.conversation directement
+    generateNarrative(null);
   } else {
-    // Pas de conversation sauvegardée : relancer normalement
     generateNarrative(`REPRISE — je suis ${G.name}, ${G.age} ans, à ${G.city}. Capital : ${formatMoney(G.capital)}. Profil : ${G.profile}. Reprends la situation et propose mes 4 choix.`);
   }
 }
 
 let G = {
-  name: '',
-  city: '',
-  capitalLabel: '',
-  profile: '',
-  // Temps
-  age: 22,
-  year: START_YEAR,
-  month: 2, // mars = printemps
-  week: 8,  // semaine de l'année (0-51)
-  season: 'Printemps',
-  // Finances
-  capital: 0,
-  income: 0,
-  wealth: 0,
-  dettes: 0,
-  scoreCredit: 650,
-  // Stats vie
-  sante: 80,
-  bonheur: 70,
-  reputation: 30,
-  reseau: 10,
-  // Actifs (liste libre)
-  assets: [],
-  // Historique
-  history: [],
-  conversation: [], // vraie liste {role,content} envoyée à l'API
-  nbChoix: 0,
-  adminMode: false,
-  gameStarted: false,
-  apiKey: ''
+  name: '', city: '', capitalLabel: '', profile: '',
+  age: 22, year: START_YEAR, month: 2, week: 8, season: 'Printemps',
+  capital: 0, income: 0, wealth: 0, dettes: 0, scoreCredit: 650,
+  sante: 80, bonheur: 70, reputation: 30, reseau: 10,
+  assets: [], history: [], conversation: [],
+  nbChoix: 0, adminMode: false, gameStarted: false
 };
 
-// ════════════════════════════════════
-//  NAVIGATION
-// ════════════════════════════════════
 function showScreen(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById('screen-' + id).classList.add('active');
@@ -1198,9 +735,6 @@ function showScreen(id) {
 
 function showCreate() { showScreen('create'); }
 
-// ════════════════════════════════════
-//  SÉLECTION CARTES
-// ════════════════════════════════════
 function selectCard(el) {
   const group = el.dataset.group;
   document.querySelectorAll(`.choice-card[data-group="${group}"]`).forEach(c => c.classList.remove('selected'));
@@ -1218,32 +752,24 @@ function checkCreateReady() {
 
 document.getElementById('player-name').addEventListener('input', checkCreateReady);
 
-// ════════════════════════════════════
-//  DÉMARRER LE JEU
-// ════════════════════════════════════
 function startGame() {
   const name = document.getElementById('player-name').value.trim();
   const city = document.querySelector('.choice-card[data-group="city"].selected');
   const capital = document.querySelector('.choice-card[data-group="capital"].selected');
   const profile = document.querySelector('.choice-card[data-group="profile"].selected');
-
   G.name = name;
   G.city = city.dataset.val;
   G.capital = parseInt(capital.dataset.val);
   G.capitalLabel = capital.dataset.label;
   G.profile = profile.dataset.val;
   G.wealth = G.capital;
-  G.conversation = []; // Réinitialiser la conversation pour une nouvelle partie
+  G.conversation = [];
   G.gameStarted = true;
-
   showScreen('game');
   updateHUD();
   generateNarrative(null);
 }
 
-// ════════════════════════════════════
-//  HUD
-// ════════════════════════════════════
 function formatMoney(n) {
   if (Math.abs(n) >= 1000000) return (n / 1000000).toFixed(1).replace('.0','') + ' M€';
   if (Math.abs(n) >= 1000) return Math.round(n / 1000) + ' k€';
@@ -1254,70 +780,30 @@ function updateHUD() {
   document.getElementById('stat-age').textContent = G.age + ' ans';
   document.getElementById('stat-year').textContent = G.year;
   document.getElementById('stat-season').textContent = G.season;
-  // Semaine
   const weekNum = Math.floor((G.week || 0) % 52) + 1;
-  const statWeek = document.getElementById('stat-week');
-  if(statWeek) statWeek.textContent = 'S' + weekNum;
-  const panelWeek = document.getElementById('panel-week');
-  if(panelWeek) panelWeek.textContent = 'S' + weekNum;
-  const panelSeason = document.getElementById('panel-season');
-  if(panelSeason) panelSeason.textContent = G.season;
-  const panelYear = document.getElementById('panel-year');
-  if(panelYear) panelYear.textContent = G.year;
-  const panelCity = document.getElementById('panel-city');
-  if(panelCity) panelCity.textContent = G.city || '—';
+  const sw = document.getElementById('stat-week'); if(sw) sw.textContent = 'S' + weekNum;
+  const pw = document.getElementById('panel-week'); if(pw) pw.textContent = 'S' + weekNum;
+  const ps = document.getElementById('panel-season'); if(ps) ps.textContent = G.season;
+  const py = document.getElementById('panel-year'); if(py) py.textContent = G.year;
+  const pc = document.getElementById('panel-city'); if(pc) pc.textContent = G.city || '—';
   document.getElementById('stat-capital').textContent = formatMoney(G.capital);
   document.getElementById('stat-income').textContent = formatMoney(G.income) + '/m';
   document.getElementById('stat-wealth').textContent = formatMoney(G.wealth);
-
-  // Panneau banque
-  const bc = document.getElementById('bank-capital');
-  const bi = document.getElementById('bank-income');
-  const bw = document.getElementById('bank-wealth');
-  const bd = document.getElementById('bank-dettes');
-  const bcr = document.getElementById('bank-credit');
-  const bcrBar = document.getElementById('bank-credit-bar');
-  const bcrLabel = document.getElementById('bank-credit-label');
-  if(bc) bc.textContent = formatMoney(G.capital);
-  if(bi) bi.textContent = formatMoney(G.income) + ' /mois';
-  if(bw) bw.textContent = formatMoney(G.wealth);
-  if(bd) {
-    bd.textContent = G.dettes > 0 ? '- ' + formatMoney(G.dettes) : '0 €';
-    bd.style.color = G.dettes > 0 ? 'var(--red,#e74c3c)' : 'var(--green,#2ecc71)';
-  }
-  if(bcr) bcr.textContent = G.scoreCredit || 650;
-  if(bcrBar) {
-    const sc = G.scoreCredit || 650;
-    bcrBar.style.width = Math.round((sc / 850) * 100) + '%';
-    bcrBar.style.background = sc >= 750 ? 'var(--green,#2ecc71)' : sc >= 650 ? 'var(--gold,#c9a84c)' : 'var(--red,#e74c3c)';
-  }
-  if(bcrLabel) {
-    const sc = G.scoreCredit || 650;
-    bcrLabel.textContent = sc >= 750 ? 'Excellent' : sc >= 700 ? 'Bon' : sc >= 650 ? 'Correct' : sc >= 580 ? 'Faible' : 'Mauvais';
-  }
+  const bc=document.getElementById('bank-capital'); if(bc) bc.textContent=formatMoney(G.capital);
+  const bi=document.getElementById('bank-income'); if(bi) bi.textContent=formatMoney(G.income)+' /mois';
+  const bw=document.getElementById('bank-wealth'); if(bw) bw.textContent=formatMoney(G.wealth);
+  const bd=document.getElementById('bank-dettes'); if(bd){bd.textContent=G.dettes>0?'- '+formatMoney(G.dettes):'0 €';bd.style.color=G.dettes>0?'var(--red)':'var(--green)';}
+  const bcr=document.getElementById('bank-credit'); if(bcr) bcr.textContent=G.scoreCredit||650;
+  const bcrBar=document.getElementById('bank-credit-bar');
+  if(bcrBar){const sc=G.scoreCredit||650;bcrBar.style.width=Math.round((sc/850)*100)+'%';bcrBar.style.background=sc>=750?'var(--green)':sc>=650?'var(--gold)':'var(--red)';}
+  const bcrLabel=document.getElementById('bank-credit-label');
+  if(bcrLabel){const sc=G.scoreCredit||650;bcrLabel.textContent=sc>=750?'Excellent':sc>=700?'Bon':sc>=650?'Correct':sc>=580?'Faible':'Mauvais';}
   document.getElementById('temporal-stamp').textContent = G.season + ' ' + G.year + ' — ' + G.age + ' ans';
-
-  // Counter
-  const remain = G.adminMode ? '∞' : (PAYWALL_LIMIT - G.nbChoix);
-  document.getElementById('footer-counter').textContent = G.adminMode
-    ? 'Mode Admin — choix illimités'
-    : `Choix : ${G.nbChoix} / ${PAYWALL_LIMIT}`;
-
-  // Barres
-  setBar('sante', G.sante);
-  setBar('bonheur', G.bonheur);
-  setBar('reputation', G.reputation);
-  setBar('reseau', G.reseau);
-
-  // Actifs
+  document.getElementById('footer-counter').textContent = G.adminMode ? 'Mode Admin — choix illimités' : `Choix : ${G.nbChoix} / ${PAYWALL_LIMIT}`;
+  setBar('sante', G.sante); setBar('bonheur', G.bonheur); setBar('reputation', G.reputation); setBar('reseau', G.reseau);
   const list = document.getElementById('assets-list');
-  if (G.assets.length === 0) {
-    list.innerHTML = '<span class="assets-empty">Aucun actif pour l\'instant.</span>';
-  } else {
-    list.innerHTML = G.assets.map(a => `<span class="asset-tag">${a}</span>`).join('');
-  }
-
-  // Admin badge
+  if (G.assets.length === 0) { list.innerHTML = '<span class="assets-empty">Aucun actif pour l\'instant.</span>'; }
+  else { list.innerHTML = G.assets.map(a => `<span class="asset-tag">${a}</span>`).join(''); }
   document.getElementById('admin-badge').style.display = G.adminMode ? 'inline' : 'none';
 }
 
@@ -1328,67 +814,42 @@ function setBar(key, val) {
   if (text) text.textContent = Math.round(val);
 }
 
-// ════════════════════════════════════
-//  TEMPS
-// ════════════════════════════════════
 function advanceTime(months) {
-  // Compatibilité : reçoit des mois OU des semaines selon le contexte
   G.month += months;
-  while (G.month >= 12) {
-    G.month -= 12;
-    G.year++;
-    G.age++;
-  }
+  while (G.month >= 12) { G.month -= 12; G.year++; G.age++; }
   G.season = getSeason(G.month);
 }
 
 function advanceWeeks(weeks) {
-  // Avancer en semaines (4 semaines ≈ 1 mois)
-  const months = weeks / 4;
   G.week = (G.week || 0) + weeks;
-  // Synchroniser les mois
   const newMonths = Math.floor(G.week / 4);
   const prevMonths = Math.floor((G.week - weeks) / 4);
-  if (newMonths > prevMonths) {
-    advanceTime(newMonths - prevMonths);
-  }
+  if (newMonths > prevMonths) { advanceTime(newMonths - prevMonths); }
 }
 
-// ════════════════════════════════════
-//  GÉNÉRATION NARRATIVE
-// ════════════════════════════════════
+// ── APPEL API via proxy Vercel ──
 async function generateNarrative(choiceText) {
   const zone = document.getElementById('narrative-zone');
   const choicesZone = document.getElementById('choices-zone');
-
   choicesZone.innerHTML = '';
   zone.innerHTML = '<div class="loading-dots"><span></span><span></span><span></span></div>';
 
   const systemPrompt = buildSystemPrompt();
-  // Si choiceText est null, on utilise directement G.conversation (déjà mis à jour)
   const messages = (choiceText === null && G.conversation.length > 0)
     ? G.conversation
     : buildMessages(choiceText);
 
   try {
-    const response = await fetch('https://api.anthropic.com/v1/messages', {
+    const response = await fetch('/api/chat', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': G.apiKey,
-        'anthropic-version': '2023-06-01',
-        'anthropic-dangerous-direct-browser-access': 'true'
-      },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 1000,
-        stream: true,
-        system: systemPrompt,
-        messages: messages
-      })
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ system: systemPrompt, messages: messages, max_tokens: 1000 })
     });
 
-    if (!response.ok) throw new Error('API error ' + response.status);
+    if (!response.ok) {
+      const e = await response.json().catch(() => ({}));
+      throw new Error(e.error || 'API error ' + response.status);
+    }
 
     zone.innerHTML = '';
     let cursor = document.createElement('span');
@@ -1403,11 +864,9 @@ async function generateNarrative(choiceText) {
     while (true) {
       const { done, value } = await reader.read();
       if (done) break;
-
       buffer += decoder.decode(value, { stream: true });
       const lines = buffer.split('\n');
       buffer = lines.pop();
-
       for (const line of lines) {
         if (!line.startsWith('data: ')) continue;
         const data = line.slice(6).trim();
@@ -1427,39 +886,23 @@ async function generateNarrative(choiceText) {
     parseAndApplyResponse(fullText);
 
   } catch (err) {
-    const errMsg = err.message || 'Erreur inconnue';
-    const isCors = errMsg.includes('CORS') || errMsg.includes('Failed to fetch');
-    const isKey = errMsg.includes('401') || errMsg.includes('403');
-    let msg = 'Erreur de connexion.';
-    if(isKey) msg = "Clé API invalide ou manquante. Vérifie la clé sur l'écran d'accueil.";
-    else if(isCors) msg = 'Erreur CORS. Assure-toi que la clé API est correcte.';
-    zone.innerHTML = `<em style="color:var(--text-dim)">${msg}</em>
+    zone.innerHTML = `<em style="color:var(--text-dim)">Erreur : ${err.message}</em>
       <br><button onclick="generateNarrative(null)" style="margin-top:12px;background:var(--gold);color:var(--navy);border:none;padding:8px 20px;font-family:monospace;font-size:11px;cursor:pointer;">↺ Réessayer</button>`;
     console.error(err);
   }
 }
 
-// ════════════════════════════════════
-//  PARSING RÉPONSE IA
-// ════════════════════════════════════
 function parseAndApplyResponse(text) {
-  // Extraire JSON de fin de réponse
   const jsonMatch = text.match(/\{[\s\S]*"choices"[\s\S]*\}/);
   if (!jsonMatch) {
-    // Pas de JSON — afficher quand même 4 boutons génériques
     renderChoices(['Continuer', 'Prendre du recul', 'Chercher des informations', 'Passer du temps libre']);
     return;
   }
-
   let data;
   try { data = JSON.parse(jsonMatch[0]); } catch { return; }
-
-  // Mettre à jour le texte (retirer le JSON)
   const narrativeText = text.replace(/\{[\s\S]*"choices"[\s\S]*\}/, '').trim();
   const zone = document.getElementById('narrative-zone');
   zone.textContent = narrativeText;
-
-  // Appliquer les mises à jour de stats
   if (data.stats) {
     const s = data.stats;
     if (s.capital !== undefined) G.capital = s.capital;
@@ -1474,25 +917,15 @@ function parseAndApplyResponse(text) {
     if (s.newAsset) G.assets.push(s.newAsset);
     if (s.removeAsset) G.assets = G.assets.filter(a => a !== s.removeAsset);
     if (s.weeksAdvanced) advanceWeeks(s.weeksAdvanced);
-    else if (s.monthsAdvanced) advanceTime(s.monthsAdvanced); // rétrocompatibilité
-    if (s.city) G.city = s.city; // changement de pays/ville
+    else if (s.monthsAdvanced) advanceTime(s.monthsAdvanced);
+    if (s.city) G.city = s.city;
   }
-
   updateHUD();
-
-  // Ajouter la réponse IA à la vraie conversation
   G.conversation.push({ role: 'assistant', content: text });
   if (G.conversation.length > 30) G.conversation = G.conversation.slice(-30);
-
-  // Historique résumé (pour affichage dans le prompt système)
   G.history.push({ text: narrativeText.slice(0, 200), age: G.age, year: G.year });
   if (G.history.length > 15) G.history.shift();
-
-  // Rendu des choix
-  if (data.choices && data.choices.length) {
-    renderChoices(data.choices);
-  }
-
+  if (data.choices && data.choices.length) renderChoices(data.choices);
   sauvegarderPartie();
   window.scrollTo(0, 0);
 }
@@ -1509,9 +942,6 @@ function renderChoices(choices) {
   });
 }
 
-// ════════════════════════════════════
-//  CHOIX JOUEUR
-// ════════════════════════════════════
 function handleChoice(choiceText) {
   if (!G.adminMode) {
     G.nbChoix++;
@@ -1524,9 +954,6 @@ function handleChoice(choiceText) {
   generateNarrative(choiceText);
 }
 
-// ════════════════════════════════════
-//  PROMPT SYSTÈME
-// ════════════════════════════════════
 function buildSystemPrompt() {
   return `Tu es le narrateur de FORTUNE, un roman interactif d'entrepreneuriat. Tu incarnes la voix d'un destin qui observe le joueur construire sa vie.
 
@@ -1545,64 +972,30 @@ IDENTITÉ DU JOUEUR :
 - Santé : ${G.sante}/100, Bonheur : ${G.bonheur}/100, Réputation : ${G.reputation}/100, Réseau : ${G.reseau}/100
 
 RÈGLES ABSOLUES :
-1. TEMPS : Le temps s'écoule en SEMAINES. Chaque scène = 1 à 4 semaines maximum. Les saisons (Hiver/Printemps/Été/Automne) restent visibles et évoluent naturellement. JAMAIS plus de 4 semaines par scène. Le joueur doit sentir sa vie avancer semaine par semaine, avec des jalons mensuels. Utilise "weeksAdvanced" dans le JSON (ex: 2 pour 2 semaines).
-2bis. CHANGEMENT DE PAYS/VILLE : Le joueur peut déménager ou s'installer dans une nouvelle ville à tout moment. Si le joueur choisit de déménager, utilise "city" dans le JSON avec le nom de la nouvelle ville. Les opportunités changent selon la ville.
-2. INVESTISSEMENTS : Le joueur peut investir dans ABSOLUMENT TOUT ce qu'il veut — immobilier, trading, actions, crypto, startups, restaurants, agences, franchises, usines, œuvres d'art, tout. Aucune restriction arbitraire.
-3. MULTI-BUSINESS : Le joueur peut posséder autant d'entreprises et d'actifs simultanément qu'il le souhaite. L'accumulation est illimitée.
-4. CONSÉQUENCES RÉELLES : Une mauvaise décision financière a des conséquences réelles. L'IA ne protège jamais le joueur.
-5. COHÉRENCE : Respecte les actifs existants. Si le joueur possède déjà un restaurant, les revenus mensuels doivent le refléter.
-6. NARRATION PURE : Ne jamais mentionner dans le texte narratif le numéro de chapitre, l'âge du joueur, la ville, la saison, l'année, la semaine, ni aucune autre métadonnée. Ces informations sont déjà affichées dans l'interface. La narration ne contient que du roman, pas des rappels contextuels.
-7. Mots INTERDITS : soudain, immédiatement, incroyable, impressionnant.
-8. Les chiffres sont toujours réalistes — pas de gains fantaisistes sans justification narrative.
-9. OBLIGATOIRE : français correct avec tous les accents (é, è, ê, à, ù, ô, î, etc.)
+1. TEMPS : Le temps s'écoule en SEMAINES. Chaque scène = 1 à 4 semaines maximum. Utilise "weeksAdvanced" dans le JSON.
+2. CHANGEMENT DE VILLE : Si le joueur déménage, utilise "city" dans le JSON.
+3. INVESTISSEMENTS : Le joueur peut investir dans ABSOLUMENT TOUT.
+4. MULTI-BUSINESS : Accumulation illimitée d'actifs.
+5. CONSÉQUENCES RÉELLES : L'IA ne protège jamais le joueur.
+6. COHÉRENCE : Respecte les actifs existants.
+7. NARRATION PURE : Pas de métadonnées dans le texte narratif.
+8. Mots INTERDITS : soudain, immédiatement, incroyable, impressionnant.
+9. Chiffres toujours réalistes.
+10. OBLIGATOIRE : français correct avec tous les accents.
 
-MOTEUR LITTÉRAIRE : Précision financière de Michael Lewis (l'argent comme aventure humaine), dimension sociale de Tom Wolfe (ce que l'argent fait aux gens), ambition d'Ayn Rand (refus des limites). Chaque scène est un roman, pas un tableur.
+MOTEUR LITTÉRAIRE : Précision financière de Michael Lewis, dimension sociale de Tom Wolfe, ambition d'Ayn Rand.
 
-=== RÈGLE FONDAMENTALE DES CHOIX — IMMERSION TOTALE ===
-
-Les 4 choix sont TOUJOURS des micro-décisions chirurgicales, jamais des directions générales.
-
-PRINCIPE : Le joueur doit avoir l'impression de VRAIMENT AGIR. Chaque choix est une action précise avec un résultat incertain.
-
-EXEMPLES PAR DOMAINE :
-
-Casino / Jeu :
-❌ INTERDIT : "Jouer au blackjack" / "Partir" / "Continuer à jouer"
-✅ OBLIGATOIRE : "Miser 5 000$ sur le rouge, numéro 17" / "Doubler la mise sur cette main — tu as 16, le croupier montre un 6" / "Splitter les 8, jouer deux mains séparées" / "Retirer 3 000$ et changer de table"
-
-Immobilier :
-❌ INTERDIT : "Faire une offre" / "Négocier le prix"
-✅ OBLIGATOIRE : "Offrir 850 000$ comptant, fermeture en 10 jours" / "Offrir 920 000$ avec clause d'inspection 72h" / "Demander au vendeur de financer 20% lui-même à 4%" / "Passer, chercher mieux dans le quartier nord"
-
-Trading / Bourse :
-❌ INTERDIT : "Vendre" / "Acheter plus" / "Attendre"
-✅ OBLIGATOIRE : "Vendre 50% de la position maintenant, sécuriser le gain" / "Placer un stop-loss à -8% et laisser courir" / "Acheter 200 actions supplémentaires en moyenne à la baisse" / "Tout liquider et basculer sur les obligations"
-
-Négociation business :
-❌ INTERDIT : "Accepter l'offre" / "Refuser" / "Contre-proposer"
-✅ OBLIGATOIRE : "Accepter 40% des parts contre 150 000$ d'investissement" / "Exiger une clause de rachat à 18 mois" / "Proposer 25% contre 80 000$ + accompagnement 6 mois" / "Sortir — cette valorisation est insultante"
-
-Recrutement :
-❌ INTERDIT : "Embaucher" / "Refuser le candidat"
-✅ OBLIGATOIRE : "Offrir 3 200€/mois + 5% des bénéfices nets" / "Proposer 2 800€ avec révision dans 3 mois selon les résultats" / "Lui donner une semaine d'essai non rémunérée" / "Passer au candidat suivant"
-
-RÈGLE DE CONSÉQUENCES RÉELLES :
-- Chaque choix a une probabilité de succès différente selon le contexte.
-- Un choix agressif peut rapporter gros OU tout faire perdre.
-- Un choix prudent préserve le capital mais limite les gains.
-- L'IA calcule le résultat de façon réaliste et impartiale — pas de protection du joueur.
-- Les pertes sont réelles, les gains sont réels, les probabilités sont réalistes.
-
-RÈGLE DES CONSÉQUENCES NARRATIVES :
-Après chaque choix du joueur, la narration décrit ce qui se passe VRAIMENT — la réaction du croupier, la tension de la salle, le coup de téléphone du courtier, la sueur froide, la montée d'adrénaline. Pas de résumé. Du vécu.
+LES 4 CHOIX sont TOUJOURS des micro-décisions chirurgicales, jamais des directions générales. Exemples :
+- Casino : "Miser 5 000$ sur le rouge, numéro 17" / "Doubler la mise sur cette main"
+- Immo : "Offrir 850 000$ comptant, fermeture en 10 jours" / "Demander au vendeur de financer 20% à 4%"
+- Trading : "Vendre 50% de la position, sécuriser le gain" / "Placer un stop-loss à -8% et laisser courir"
 
 FORMAT DE RÉPONSE OBLIGATOIRE :
-Écris d'abord le texte narratif (3-5 paragraphes, vivants et précis), puis termine TOUJOURS par un objet JSON sur une seule ligne :
+Texte narratif (3-5 paragraphes vivants et précis), puis TOUJOURS sur une seule ligne :
 {"choices":["Choix 1 précis","Choix 2 précis","Choix 3 précis","Choix 4 précis"],"stats":{"capital":NOUVEAU_CAPITAL,"income":NOUVEAU_REVENU_MENSUEL,"wealth":NOUVEAU_PATRIMOINE,"sante":NOUVELLE_SANTE,"bonheur":NOUVEAU_BONHEUR,"reputation":NOUVELLE_REPUTATION,"reseau":NOUVEAU_RESEAU,"dettes":NOUVELLES_DETTES,"scoreCredit":NOUVEAU_SCORE_CREDIT_OU_null,"weeksAdvanced":SEMAINES_ECOULEES,"city":NOUVELLE_VILLE_OU_null,"newAsset":"NOM_ACTIF_ACQUIS_OU_null","removeAsset":"NOM_ACTIF_VENDU_OU_null"}}`;
 }
 
 function buildMessages(choiceText) {
-  // Si première scène : initialiser la conversation
   if (G.conversation.length === 0) {
     const firstMsg = {
       role: 'user',
@@ -1611,8 +1004,6 @@ function buildMessages(choiceText) {
     G.conversation.push(firstMsg);
     return [firstMsg];
   }
-
-  // Sinon : ajouter le choix du joueur à la vraie conversation
   if (choiceText) {
     const contextMsg = {
       role: 'user',
@@ -1627,34 +1018,19 @@ Continue l'histoire en conséquence. Sois précis sur le temps qui s'écoule en 
     };
     G.conversation.push(contextMsg);
   }
-
-  // Garder max 30 messages pour ne pas dépasser le contexte
   if (G.conversation.length > 30) G.conversation = G.conversation.slice(-30);
-
   return G.conversation;
 }
 
-// ════════════════════════════════════
-//  PANEL ACTIFS
-// ════════════════════════════════════
 function toggleAssets() {
   const panel = document.getElementById('assets-panel');
   panel.classList.toggle('open');
 }
 
-// ════════════════════════════════════
-//  CODE D'ACCÈS
-// ════════════════════════════════════
-function toggleCodeInput() {
-  const row = document.getElementById('code-input-row');
-  row.classList.toggle('visible');
-}
-
 async function verifyCode(code, statusEl) {
-  statusEl.textContent = '…';
-  statusEl.className = '';
+  statusEl.textContent = '…'; statusEl.className = '';
   try {
-    const r = await fetch(`${API_URL}?code=${encodeURIComponent(code)}`);
+    const r = await fetch(API_CODES_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ code }) });
     const data = await r.json();
     if (data.valid) {
       statusEl.textContent = data.admin ? '✓ Mode admin activé' : '✓ Accès débloqué';
@@ -1669,16 +1045,6 @@ async function verifyCode(code, statusEl) {
     statusEl.textContent = '✗ Erreur réseau';
     statusEl.className = 'status-err';
     return null;
-  }
-}
-
-async function submitCode() {
-  const code = document.getElementById('code-field').value.trim().toUpperCase();
-  const status = document.getElementById('code-status');
-  const data = await verifyCode(code, status);
-  if (data?.admin) {
-    G.adminMode = true;
-    updateHUD();
   }
 }
 
