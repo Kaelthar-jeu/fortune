@@ -19,342 +19,90 @@
     --text: #e8e4dc;
     --text-dim: #8a8a7a;
   }
-
   * { margin: 0; padding: 0; box-sizing: border-box; }
-
-  body {
-    background: var(--navy);
-    color: var(--text);
-    font-family: 'EB Garamond', Georgia, serif;
-    font-size: 18px;
-    line-height: 1.7;
-    min-height: 100vh;
-  }
-
+  body { background: var(--navy); color: var(--text); font-family: 'EB Garamond', Georgia, serif; font-size: 18px; line-height: 1.7; min-height: 100vh; }
   .screen { display: none; min-height: 100vh; }
   .screen.active { display: flex; flex-direction: column; }
-
-  /* INTRO */
-  #screen-intro {
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 40px 20px;
-    background: var(--navy);
-    position: relative;
-    overflow: hidden;
-  }
-
-  #screen-intro::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(ellipse at 60% 40%, rgba(201,168,76,0.06) 0%, transparent 60%),
-                radial-gradient(ellipse at 20% 80%, rgba(17,34,64,0.8) 0%, transparent 50%);
-    pointer-events: none;
-  }
-
-  .intro-tagline {
-    font-family: 'Space Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 4px;
-    color: var(--gold);
-    text-transform: uppercase;
-    margin-bottom: 32px;
-    opacity: 0.8;
-  }
-
-  .intro-title {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(72px, 15vw, 140px);
-    font-weight: 700;
-    color: var(--white);
-    line-height: 0.9;
-    margin-bottom: 8px;
-    letter-spacing: -2px;
-  }
-
+  #screen-intro { align-items: center; justify-content: center; text-align: center; padding: 40px 20px; background: var(--navy); position: relative; overflow: hidden; }
+  #screen-intro::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(ellipse at 60% 40%, rgba(201,168,76,0.06) 0%, transparent 60%), radial-gradient(ellipse at 20% 80%, rgba(17,34,64,0.8) 0%, transparent 50%); pointer-events: none; }
+  .intro-tagline { font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: 4px; color: var(--gold); text-transform: uppercase; margin-bottom: 32px; opacity: 0.8; }
+  .intro-title { font-family: 'Playfair Display', serif; font-size: clamp(72px, 15vw, 140px); font-weight: 700; color: var(--white); line-height: 0.9; margin-bottom: 8px; letter-spacing: -2px; }
   .intro-title span { color: var(--gold); }
-
-  .intro-subtitle {
-    font-family: 'EB Garamond', serif;
-    font-style: italic;
-    font-size: 20px;
-    color: var(--white-dim);
-    margin-bottom: 48px;
-  }
-
-  .intro-quote {
-    font-family: 'EB Garamond', serif;
-    font-style: italic;
-    font-size: 16px;
-    color: var(--text-dim);
-    max-width: 400px;
-    margin: 0 auto 56px;
-    border-left: 2px solid var(--gold);
-    padding-left: 20px;
-    text-align: left;
-  }
-
-  .btn-primary {
-    background: var(--gold);
-    color: var(--navy);
-    border: none;
-    padding: 16px 48px;
-    font-family: 'Space Mono', monospace;
-    font-size: 13px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    cursor: pointer;
-    transition: all 0.2s;
-    font-weight: 700;
-  }
-
+  .intro-subtitle { font-family: 'EB Garamond', serif; font-style: italic; font-size: 20px; color: var(--white-dim); margin-bottom: 48px; }
+  .intro-quote { font-family: 'EB Garamond', serif; font-style: italic; font-size: 16px; color: var(--text-dim); max-width: 400px; margin: 0 auto 56px; border-left: 2px solid var(--gold); padding-left: 20px; text-align: left; }
+  .btn-primary { background: var(--gold); color: var(--navy); border: none; padding: 16px 48px; font-family: 'Space Mono', monospace; font-size: 13px; letter-spacing: 2px; text-transform: uppercase; cursor: pointer; transition: all 0.2s; font-weight: 700; }
   .btn-primary:hover { background: var(--gold-light); transform: translateY(-1px); }
-
-  /* CRÉATION */
-  #screen-create {
-    padding: 40px 20px 60px;
-    max-width: 680px;
-    margin: 0 auto;
-    width: 100%;
-  }
-
+  #screen-create { padding: 40px 20px 60px; max-width: 680px; margin: 0 auto; width: 100%; }
   .create-header { margin-bottom: 48px; }
   .create-header h2 { font-family: 'Playfair Display', serif; font-size: 36px; font-weight: 400; color: var(--white); margin-bottom: 8px; }
   .create-header p { font-size: 16px; color: var(--text-dim); font-style: italic; }
-
-  .section-label {
-    font-family: 'Space Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    color: var(--gold);
-    margin-bottom: 16px;
-    display: block;
-  }
-
-  .choice-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 12px;
-    margin-bottom: 40px;
-  }
-
-  .choice-card {
-    background: var(--navy-mid);
-    border: 1px solid var(--navy-light);
-    padding: 20px;
-    cursor: pointer;
-    transition: all 0.2s;
-    position: relative;
-  }
-
+  .section-label { font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; display: block; }
+  .choice-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 40px; }
+  .choice-card { background: var(--navy-mid); border: 1px solid var(--navy-light); padding: 20px; cursor: pointer; transition: all 0.2s; position: relative; }
   .choice-card:hover { border-color: var(--gold); background: var(--navy-light); }
   .choice-card.selected { border-color: var(--gold); background: rgba(201,168,76,0.08); }
   .choice-card.selected::after { content: '✓'; position: absolute; top: 12px; right: 14px; color: var(--gold); font-family: 'Space Mono', monospace; font-size: 14px; }
-
   .choice-card-title { font-family: 'Playfair Display', serif; font-size: 17px; color: var(--white); margin-bottom: 6px; }
   .choice-card-desc { font-size: 14px; color: var(--text-dim); line-height: 1.5; }
   .choice-card-tag { font-family: 'Space Mono', monospace; font-size: 10px; color: var(--gold); margin-bottom: 8px; display: block; }
-
-  .name-input {
-    width: 100%;
-    background: var(--navy-mid);
-    border: 1px solid var(--navy-light);
-    border-bottom: 2px solid var(--gold);
-    color: var(--white);
-    padding: 14px 16px;
-    font-family: 'EB Garamond', serif;
-    font-size: 20px;
-    outline: none;
-    margin-bottom: 40px;
-  }
-
+  .name-input { width: 100%; background: var(--navy-mid); border: 1px solid var(--navy-light); border-bottom: 2px solid var(--gold); color: var(--white); padding: 14px 16px; font-family: 'EB Garamond', serif; font-size: 20px; outline: none; margin-bottom: 40px; }
   .name-input::placeholder { color: var(--text-dim); font-style: italic; }
-
-  .btn-start {
-    width: 100%;
-    background: var(--gold);
-    color: var(--navy);
-    border: none;
-    padding: 18px;
-    font-family: 'Space Mono', monospace;
-    font-size: 13px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    cursor: pointer;
-    font-weight: 700;
-    transition: all 0.2s;
-  }
-
+  .btn-start { width: 100%; background: var(--gold); color: var(--navy); border: none; padding: 18px; font-family: 'Space Mono', monospace; font-size: 13px; letter-spacing: 2px; text-transform: uppercase; cursor: pointer; font-weight: 700; transition: all 0.2s; }
   .btn-start:hover:not(:disabled) { background: var(--gold-light); }
   .btn-start:disabled { opacity: 0.4; cursor: default; }
-
-  /* JEU */
   #screen-game { flex-direction: column; min-height: 100vh; }
-
-  .game-header {
-    background: var(--navy-mid);
-    border-bottom: 1px solid var(--navy-light);
-    padding: 0 20px;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-  }
-
-  .header-inner {
-    max-width: 900px;
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: 56px;
-    gap: 16px;
-  }
-
+  .game-header { background: var(--navy-mid); border-bottom: 1px solid var(--navy-light); padding: 0 20px; position: sticky; top: 0; z-index: 100; }
+  .header-inner { max-width: 900px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 56px; gap: 16px; }
   .header-brand { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; color: var(--gold); flex-shrink: 0; }
-
   .header-stats { display: flex; gap: 20px; align-items: center; flex-wrap: wrap; justify-content: center; }
-
   .stat-chip { display: flex; flex-direction: column; align-items: center; gap: 1px; }
   .stat-chip-label { font-family: 'Space Mono', monospace; font-size: 9px; letter-spacing: 1.5px; color: var(--text-dim); text-transform: uppercase; }
   .stat-chip-value { font-family: 'Space Mono', monospace; font-size: 13px; font-weight: 700; color: var(--white); }
   .stat-chip-value.gold { color: var(--gold); }
   .stat-chip-value.green { color: var(--green); }
   .stat-chip-value.red { color: var(--red); }
-
-  .header-assets-toggle {
-    font-family: 'Space Mono', monospace;
-    font-size: 10px;
-    color: var(--text-dim);
-    cursor: pointer;
-    background: none;
-    border: 1px solid var(--navy-light);
-    color: var(--text-dim);
-    padding: 4px 10px;
-    transition: all 0.2s;
-    flex-shrink: 0;
-  }
+  .header-assets-toggle { font-family: 'Space Mono', monospace; font-size: 10px; color: var(--text-dim); cursor: pointer; background: none; border: 1px solid var(--navy-light); color: var(--text-dim); padding: 4px 10px; transition: all 0.2s; flex-shrink: 0; }
   .header-assets-toggle:hover { border-color: var(--gold); color: var(--gold); }
-
   #assets-panel { background: var(--navy-mid); border-bottom: 1px solid var(--navy-light); display: none; padding: 16px 20px; }
   #assets-panel.open { display: block; }
-
   .assets-inner { max-width: 900px; margin: 0 auto; }
   .assets-title { font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 3px; color: var(--gold); text-transform: uppercase; margin-bottom: 12px; }
   .assets-list { display: flex; flex-wrap: wrap; gap: 8px; }
   .asset-tag { background: rgba(201,168,76,0.1); border: 1px solid rgba(201,168,76,0.3); padding: 4px 12px; font-family: 'Space Mono', monospace; font-size: 11px; color: var(--gold-light); }
   .assets-empty { font-style: italic; color: var(--text-dim); font-size: 14px; }
-
   .game-main { flex: 1; padding: 40px 20px 60px; max-width: 700px; margin: 0 auto; width: 100%; }
-
-  .temporal-stamp {
-    font-family: 'Space Mono', monospace;
-    font-size: 11px;
-    color: var(--gold);
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    margin-bottom: 28px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
+  .temporal-stamp { font-family: 'Space Mono', monospace; font-size: 11px; color: var(--gold); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 28px; display: flex; align-items: center; gap: 12px; }
   .temporal-stamp::after { content: ''; flex: 1; height: 1px; background: linear-gradient(to right, rgba(201,168,76,0.3), transparent); }
-
   #narrative-zone { font-size: 20px; line-height: 1.85; color: var(--text); margin-bottom: 40px; min-height: 80px; }
-
-  .cursor {
-    display: inline-block;
-    width: 2px;
-    height: 1.1em;
-    background: var(--gold);
-    vertical-align: text-bottom;
-    animation: blink 0.8s step-end infinite;
-    margin-left: 2px;
-  }
+  .cursor { display: inline-block; width: 2px; height: 1.1em; background: var(--gold); vertical-align: text-bottom; animation: blink 0.8s step-end infinite; margin-left: 2px; }
   @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
-
   .loading-dots { display: flex; gap: 8px; align-items: center; margin: 16px 0; }
   .loading-dots span { width: 6px; height: 6px; background: var(--gold); border-radius: 50%; animation: dot-pulse 1.4s ease-in-out infinite; }
   .loading-dots span:nth-child(2) { animation-delay: 0.2s; }
   .loading-dots span:nth-child(3) { animation-delay: 0.4s; }
   @keyframes dot-pulse { 0%, 80%, 100% { opacity: 0.2; transform: scale(0.8); } 40% { opacity: 1; transform: scale(1); } }
-
   #choices-zone { display: flex; flex-direction: column; gap: 10px; }
-
-  .choice-btn {
-    background: var(--navy-mid);
-    border: 1px solid var(--navy-light);
-    color: var(--text);
-    padding: 16px 20px;
-    text-align: left;
-    cursor: pointer;
-    font-family: 'EB Garamond', serif;
-    font-size: 17px;
-    line-height: 1.5;
-    transition: all 0.18s;
-    position: relative;
-    overflow: hidden;
-  }
+  .choice-btn { background: var(--navy-mid); border: 1px solid var(--navy-light); color: var(--text); padding: 16px 20px; text-align: left; cursor: pointer; font-family: 'EB Garamond', serif; font-size: 17px; line-height: 1.5; transition: all 0.18s; position: relative; overflow: hidden; }
   .choice-btn::before { content: ''; position: absolute; left: 0; top: 0; height: 100%; width: 3px; background: var(--gold); transform: scaleY(0); transition: transform 0.18s; }
   .choice-btn:hover { border-color: var(--gold); background: var(--navy-light); padding-left: 28px; }
   .choice-btn:hover::before { transform: scaleY(1); }
-
-  /* PAYWALL */
-  #paywall-overlay {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(10,22,40,0.97);
-    z-index: 200;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-    text-align: center;
-  }
+  #paywall-overlay { display: none; position: fixed; inset: 0; background: rgba(10,22,40,0.97); z-index: 200; align-items: center; justify-content: center; padding: 20px; text-align: center; }
   #paywall-overlay.visible { display: flex; }
-
   .paywall-box { max-width: 480px; width: 100%; }
   .paywall-count { font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: 3px; color: var(--gold); text-transform: uppercase; margin-bottom: 24px; }
   .paywall-title { font-family: 'Playfair Display', serif; font-size: 36px; font-weight: 700; color: var(--white); margin-bottom: 16px; }
   .paywall-text { font-size: 17px; color: var(--text-dim); font-style: italic; margin-bottom: 36px; line-height: 1.6; }
   .paywall-price { font-family: 'Space Mono', monospace; font-size: 32px; font-weight: 700; color: var(--gold); margin-bottom: 8px; }
   .paywall-period { font-family: 'Space Mono', monospace; font-size: 11px; color: var(--text-dim); margin-bottom: 32px; }
-
-  .btn-subscribe {
-    display: block;
-    width: 100%;
-    background: var(--gold);
-    color: var(--navy);
-    border: none;
-    padding: 18px;
-    font-family: 'Space Mono', monospace;
-    font-size: 13px;
-    font-weight: 700;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    cursor: pointer;
-    transition: all 0.2s;
-    text-decoration: none;
-    margin-bottom: 16px;
-  }
+  .btn-subscribe { display: block; width: 100%; background: var(--gold); color: var(--navy); border: none; padding: 18px; font-family: 'Space Mono', monospace; font-size: 13px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; cursor: pointer; transition: all 0.2s; text-decoration: none; margin-bottom: 16px; }
   .btn-subscribe:hover { background: var(--gold-light); }
-
   .paywall-unlock { display: flex; flex-direction: column; align-items: center; gap: 8px; margin-top: 24px; }
   .paywall-code-row { display: flex; gap: 8px; }
-
   .code-input { background: var(--navy-mid); border: 1px solid var(--navy-light); color: var(--text); padding: 8px 16px; font-family: 'Space Mono', monospace; font-size: 13px; width: 220px; outline: none; }
   .code-input:focus { border-color: var(--gold); }
-
   .code-submit { background: var(--navy-light); border: 1px solid var(--gold); color: var(--gold); padding: 8px 16px; font-family: 'Space Mono', monospace; font-size: 11px; cursor: pointer; transition: all 0.2s; }
   .code-submit:hover { background: var(--gold); color: var(--navy); }
-
   #admin-badge { display: none; font-family: 'Space Mono', monospace; font-size: 9px; letter-spacing: 2px; color: var(--gold); background: rgba(201,168,76,0.1); border: 1px solid rgba(201,168,76,0.3); padding: 2px 8px; }
-
   .stats-bar-group { display: flex; flex-direction: column; gap: 6px; margin: 12px 0; }
   .stats-bar-row { display: flex; align-items: center; gap: 12px; }
   .stats-bar-label { font-family: 'Space Mono', monospace; font-size: 10px; color: var(--text-dim); width: 80px; flex-shrink: 0; text-transform: uppercase; letter-spacing: 1px; }
@@ -363,12 +111,10 @@
   .stats-bar-fill.green { background: var(--green); }
   .stats-bar-fill.red { background: var(--red); }
   .stats-bar-val { font-family: 'Space Mono', monospace; font-size: 11px; color: var(--white); width: 30px; text-align: right; flex-shrink: 0; }
-
   .game-footer { background: var(--navy-mid); border-top: 1px solid var(--navy-light); padding: 12px 20px; text-align: center; }
   .footer-inner { max-width: 900px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
   .footer-counter { font-family: 'Space Mono', monospace; font-size: 11px; color: var(--text-dim); }
   .footer-brand { font-family: 'Space Mono', monospace; font-size: 10px; color: var(--text-dim); text-decoration: none; opacity: 0.5; }
-
   @media (max-width: 600px) {
     .header-stats { gap: 12px; }
     .stat-chip-value { font-size: 12px; }
@@ -385,7 +131,6 @@
 </head>
 <body>
 
-<!-- INTRO -->
 <div id="screen-intro" class="screen active">
   <div style="position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;width:100%;">
     <p class="intro-tagline">Récit Games — Roman interactif</p>
@@ -401,16 +146,13 @@
   </div>
 </div>
 
-<!-- CRÉATION -->
 <div id="screen-create" class="screen">
   <div class="create-header">
     <h2>Qui es-tu ?</h2>
     <p>Chaque vie commence quelque part. La tienne commence ici.</p>
   </div>
-
   <span class="section-label">Ton prénom</span>
   <input class="name-input" type="text" id="player-name" placeholder="Entre ton prénom..." maxlength="30">
-
   <span class="section-label">Ta ville de départ</span>
   <div class="choice-grid" id="city-grid">
     <div class="choice-card" data-group="city" data-val="New York" onclick="selectCard(this)">
@@ -444,7 +186,6 @@
       <div class="choice-card-desc">Chaos et opportunités. Pour les audacieux.</div>
     </div>
   </div>
-
   <span class="section-label">Ton capital de départ</span>
   <div class="choice-grid" id="capital-grid">
     <div class="choice-card" data-group="capital" data-val="0" data-label="Rien (0 €)" onclick="selectCard(this)">
@@ -463,7 +204,6 @@
       <div class="choice-card-desc">Des options réelles dès le départ. L'histoire commence plus haut.</div>
     </div>
   </div>
-
   <span class="section-label">Ton profil entrepreneurial</span>
   <div class="choice-grid" id="profile-grid">
     <div class="choice-card" data-group="profile" data-val="Visionnaire" onclick="selectCard(this)">
@@ -487,44 +227,21 @@
       <div class="choice-card-desc">Construit avec des employés, des locaux, des produits.</div>
     </div>
   </div>
-
   <button class="btn-start" id="btn-start" onclick="startGame()" disabled>Commencer ma vie →</button>
 </div>
 
-<!-- JEU -->
 <div id="screen-game" class="screen">
   <header class="game-header">
     <div class="header-inner">
       <span class="header-brand">F<span style="color:var(--text-dim);font-size:14px">ORTUNE</span></span>
       <div class="header-stats">
-        <div class="stat-chip">
-          <span class="stat-chip-label">Âge</span>
-          <span class="stat-chip-value gold" id="stat-age">22</span>
-        </div>
-        <div class="stat-chip">
-          <span class="stat-chip-label">Année</span>
-          <span class="stat-chip-value" id="stat-year">2024</span>
-        </div>
-        <div class="stat-chip">
-          <span class="stat-chip-label">Saison</span>
-          <span class="stat-chip-value" id="stat-season">Printemps</span>
-        </div>
-        <div class="stat-chip">
-          <span class="stat-chip-label">Semaine</span>
-          <span class="stat-chip-value" id="stat-week">S1</span>
-        </div>
-        <div class="stat-chip">
-          <span class="stat-chip-label">Capital</span>
-          <span class="stat-chip-value green" id="stat-capital">0 €</span>
-        </div>
-        <div class="stat-chip">
-          <span class="stat-chip-label">Revenus/mois</span>
-          <span class="stat-chip-value" id="stat-income">0 €</span>
-        </div>
-        <div class="stat-chip">
-          <span class="stat-chip-label">Patrimoine</span>
-          <span class="stat-chip-value gold" id="stat-wealth">0 €</span>
-        </div>
+        <div class="stat-chip"><span class="stat-chip-label">Âge</span><span class="stat-chip-value gold" id="stat-age">22</span></div>
+        <div class="stat-chip"><span class="stat-chip-label">Année</span><span class="stat-chip-value" id="stat-year">2024</span></div>
+        <div class="stat-chip"><span class="stat-chip-label">Saison</span><span class="stat-chip-value" id="stat-season">Printemps</span></div>
+        <div class="stat-chip"><span class="stat-chip-label">Semaine</span><span class="stat-chip-value" id="stat-week">S1</span></div>
+        <div class="stat-chip"><span class="stat-chip-label">Capital</span><span class="stat-chip-value green" id="stat-capital">0 €</span></div>
+        <div class="stat-chip"><span class="stat-chip-label">Revenus/mois</span><span class="stat-chip-value" id="stat-income">0 €</span></div>
+        <div class="stat-chip"><span class="stat-chip-label">Patrimoine</span><span class="stat-chip-value gold" id="stat-wealth">0 €</span></div>
       </div>
       <div style="display:flex;gap:8px;align-items:center;">
         <span id="admin-badge">ADMIN</span>
@@ -536,75 +253,28 @@
   <div id="assets-panel">
     <div class="assets-inner">
       <div style="display:flex;gap:16px;flex-wrap:wrap;margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid rgba(201,168,76,0.15);">
-        <div style="display:flex;flex-direction:column;gap:2px;">
-          <span style="font-family:monospace;font-size:9px;letter-spacing:2px;color:var(--text-dim);text-transform:uppercase;">Semaine</span>
-          <span style="font-family:monospace;font-size:14px;font-weight:700;color:var(--gold);" id="panel-week">S1</span>
-        </div>
-        <div style="display:flex;flex-direction:column;gap:2px;">
-          <span style="font-family:monospace;font-size:9px;letter-spacing:2px;color:var(--text-dim);text-transform:uppercase;">Saison</span>
-          <span style="font-family:monospace;font-size:14px;font-weight:700;color:var(--white);" id="panel-season">Printemps</span>
-        </div>
-        <div style="display:flex;flex-direction:column;gap:2px;">
-          <span style="font-family:monospace;font-size:9px;letter-spacing:2px;color:var(--text-dim);text-transform:uppercase;">Année</span>
-          <span style="font-family:monospace;font-size:14px;font-weight:700;color:var(--white);" id="panel-year">2025</span>
-        </div>
-        <div style="display:flex;flex-direction:column;gap:2px;">
-          <span style="font-family:monospace;font-size:9px;letter-spacing:2px;color:var(--text-dim);text-transform:uppercase;">Ville</span>
-          <span style="font-family:monospace;font-size:14px;font-weight:700;color:var(--white);" id="panel-city">—</span>
-        </div>
+        <div style="display:flex;flex-direction:column;gap:2px;"><span style="font-family:monospace;font-size:9px;letter-spacing:2px;color:var(--text-dim);text-transform:uppercase;">Semaine</span><span style="font-family:monospace;font-size:14px;font-weight:700;color:var(--gold);" id="panel-week">S1</span></div>
+        <div style="display:flex;flex-direction:column;gap:2px;"><span style="font-family:monospace;font-size:9px;letter-spacing:2px;color:var(--text-dim);text-transform:uppercase;">Saison</span><span style="font-family:monospace;font-size:14px;font-weight:700;color:var(--white);" id="panel-season">Printemps</span></div>
+        <div style="display:flex;flex-direction:column;gap:2px;"><span style="font-family:monospace;font-size:9px;letter-spacing:2px;color:var(--text-dim);text-transform:uppercase;">Année</span><span style="font-family:monospace;font-size:14px;font-weight:700;color:var(--white);" id="panel-year">2025</span></div>
+        <div style="display:flex;flex-direction:column;gap:2px;"><span style="font-family:monospace;font-size:9px;letter-spacing:2px;color:var(--text-dim);text-transform:uppercase;">Ville</span><span style="font-family:monospace;font-size:14px;font-weight:700;color:var(--white);" id="panel-city">—</span></div>
       </div>
       <div class="assets-title">Mes actifs & entreprises</div>
-      <div class="assets-list" id="assets-list">
-        <span class="assets-empty">Aucun actif pour l'instant.</span>
-      </div>
+      <div class="assets-list" id="assets-list"><span class="assets-empty">Aucun actif pour l'instant.</span></div>
       <div class="stats-bar-group" style="margin-top:16px;">
-        <div class="stats-bar-row">
-          <span class="stats-bar-label">Santé</span>
-          <div class="stats-bar-track"><div class="stats-bar-fill green" id="bar-sante" style="width:80%"></div></div>
-          <span class="stats-bar-val" id="val-sante">80</span>
-        </div>
-        <div class="stats-bar-row">
-          <span class="stats-bar-label">Bonheur</span>
-          <div class="stats-bar-track"><div class="stats-bar-fill" id="bar-bonheur" style="width:70%"></div></div>
-          <span class="stats-bar-val" id="val-bonheur">70</span>
-        </div>
-        <div class="stats-bar-row">
-          <span class="stats-bar-label">Réputation</span>
-          <div class="stats-bar-track"><div class="stats-bar-fill" id="bar-reputation" style="width:30%"></div></div>
-          <span class="stats-bar-val" id="val-reputation">30</span>
-        </div>
-        <div class="stats-bar-row">
-          <span class="stats-bar-label">Réseau</span>
-          <div class="stats-bar-track"><div class="stats-bar-fill" id="bar-reseau" style="width:10%"></div></div>
-          <span class="stats-bar-val" id="val-reseau">10</span>
-        </div>
+        <div class="stats-bar-row"><span class="stats-bar-label">Santé</span><div class="stats-bar-track"><div class="stats-bar-fill green" id="bar-sante" style="width:80%"></div></div><span class="stats-bar-val" id="val-sante">80</span></div>
+        <div class="stats-bar-row"><span class="stats-bar-label">Bonheur</span><div class="stats-bar-track"><div class="stats-bar-fill" id="bar-bonheur" style="width:70%"></div></div><span class="stats-bar-val" id="val-bonheur">70</span></div>
+        <div class="stats-bar-row"><span class="stats-bar-label">Réputation</span><div class="stats-bar-track"><div class="stats-bar-fill" id="bar-reputation" style="width:30%"></div></div><span class="stats-bar-val" id="val-reputation">30</span></div>
+        <div class="stats-bar-row"><span class="stats-bar-label">Réseau</span><div class="stats-bar-track"><div class="stats-bar-fill" id="bar-reseau" style="width:10%"></div></div><span class="stats-bar-val" id="val-reseau">10</span></div>
       </div>
       <div style="margin-top:20px;border-top:1px solid rgba(201,168,76,0.15);padding-top:16px;">
         <div class="assets-title">Situation bancaire</div>
         <div style="display:flex;flex-direction:column;gap:8px;margin-top:10px;">
-          <div style="display:flex;justify-content:space-between;align-items:center;">
-            <span style="font-family:monospace;font-size:10px;color:var(--text-dim);text-transform:uppercase;letter-spacing:1px;">Capital liquide</span>
-            <span style="font-family:monospace;font-size:13px;font-weight:700;color:var(--green);" id="bank-capital">0 €</span>
-          </div>
-          <div style="display:flex;justify-content:space-between;align-items:center;">
-            <span style="font-family:monospace;font-size:10px;color:var(--text-dim);text-transform:uppercase;letter-spacing:1px;">Revenus mensuels</span>
-            <span style="font-family:monospace;font-size:13px;font-weight:700;color:var(--white);" id="bank-income">0 €</span>
-          </div>
-          <div style="display:flex;justify-content:space-between;align-items:center;">
-            <span style="font-family:monospace;font-size:10px;color:var(--text-dim);text-transform:uppercase;letter-spacing:1px;">Patrimoine net</span>
-            <span style="font-family:monospace;font-size:13px;font-weight:700;color:var(--gold);" id="bank-wealth">0 €</span>
-          </div>
-          <div style="display:flex;justify-content:space-between;align-items:center;">
-            <span style="font-family:monospace;font-size:10px;color:var(--text-dim);text-transform:uppercase;letter-spacing:1px;">Dettes totales</span>
-            <span style="font-family:monospace;font-size:13px;font-weight:700;color:var(--red);" id="bank-dettes">0 €</span>
-          </div>
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:4px;padding-top:8px;border-top:1px solid rgba(255,255,255,0.06);">
-            <span style="font-family:monospace;font-size:10px;color:var(--text-dim);text-transform:uppercase;letter-spacing:1px;">Score de crédit</span>
-            <span style="font-family:monospace;font-size:13px;font-weight:700;" id="bank-credit">650</span>
-          </div>
-          <div style="height:4px;background:var(--navy-light);border-radius:2px;margin-top:2px;">
-            <div id="bank-credit-bar" style="height:100%;border-radius:2px;background:var(--gold);width:45%;transition:width 0.6s ease;"></div>
-          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;"><span style="font-family:monospace;font-size:10px;color:var(--text-dim);text-transform:uppercase;letter-spacing:1px;">Capital liquide</span><span style="font-family:monospace;font-size:13px;font-weight:700;color:var(--green);" id="bank-capital">0 €</span></div>
+          <div style="display:flex;justify-content:space-between;align-items:center;"><span style="font-family:monospace;font-size:10px;color:var(--text-dim);text-transform:uppercase;letter-spacing:1px;">Revenus mensuels</span><span style="font-family:monospace;font-size:13px;font-weight:700;color:var(--white);" id="bank-income">0 €</span></div>
+          <div style="display:flex;justify-content:space-between;align-items:center;"><span style="font-family:monospace;font-size:10px;color:var(--text-dim);text-transform:uppercase;letter-spacing:1px;">Patrimoine net</span><span style="font-family:monospace;font-size:13px;font-weight:700;color:var(--gold);" id="bank-wealth">0 €</span></div>
+          <div style="display:flex;justify-content:space-between;align-items:center;"><span style="font-family:monospace;font-size:10px;color:var(--text-dim);text-transform:uppercase;letter-spacing:1px;">Dettes totales</span><span style="font-family:monospace;font-size:13px;font-weight:700;color:var(--red);" id="bank-dettes">0 €</span></div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:4px;padding-top:8px;border-top:1px solid rgba(255,255,255,0.06);"><span style="font-family:monospace;font-size:10px;color:var(--text-dim);text-transform:uppercase;letter-spacing:1px;">Score de crédit</span><span style="font-family:monospace;font-size:13px;font-weight:700;" id="bank-credit">650</span></div>
+          <div style="height:4px;background:var(--navy-light);border-radius:2px;margin-top:2px;"><div id="bank-credit-bar" style="height:100%;border-radius:2px;background:var(--gold);width:45%;transition:width 0.6s ease;"></div></div>
           <div style="font-family:monospace;font-size:10px;color:var(--text-dim);text-align:right;" id="bank-credit-label">Correct</div>
         </div>
       </div>
@@ -625,15 +295,11 @@
   </footer>
 </div>
 
-<!-- PAYWALL -->
 <div id="paywall-overlay">
   <div class="paywall-box">
     <p class="paywall-count">Extrait terminé</p>
     <h2 class="paywall-title">La suite t'attend.</h2>
-    <p class="paywall-text">
-      Tu as posé les premières fondations.<br>
-      Pour continuer à construire ton empire — mois après mois, décision après décision — rejoins Fortune.
-    </p>
+    <p class="paywall-text">Tu as posé les premières fondations.<br>Pour continuer à construire ton empire — mois après mois, décision après décision — rejoins Fortune.</p>
     <div class="paywall-price">7 €</div>
     <div class="paywall-period">par mois · accès à tous les Récit Games</div>
     <a href="https://buy.stripe.com/dRmdR90q9fKv8ku2jq04801" class="btn-subscribe" target="_blank">S'abonner →</a>
@@ -650,7 +316,6 @@
 <script>
 const SAVE_KEY = 'fortune_save_v1';
 const PAYWALL_LIMIT = 20;
-const STRIPE_URL = 'https://buy.stripe.com/dRmdR90q9fKv8ku2jq04801';
 const API_CODES_URL = 'https://recitgames-api.vercel.app/api/verify-code';
 const START_YEAR = 2025;
 
@@ -827,7 +492,35 @@ function advanceWeeks(weeks) {
   if (newMonths > prevMonths) { advanceTime(newMonths - prevMonths); }
 }
 
-// ── APPEL API via proxy Vercel ──
+// ── Parsing JSON robuste ──
+function extraireJSON(text) {
+  // Retire les balises markdown si présentes
+  let clean = text.replace(/```json\s*/gi, '').replace(/```\s*/g, '').trim();
+  // Cherche le dernier objet JSON valide avec "choices"
+  const matches = [];
+  let depth = 0, start = -1;
+  for (let i = 0; i < clean.length; i++) {
+    if (clean[i] === '{') { if (depth === 0) start = i; depth++; }
+    else if (clean[i] === '}') {
+      depth--;
+      if (depth === 0 && start !== -1) {
+        const candidate = clean.slice(start, i + 1);
+        if (candidate.includes('"choices"')) matches.push({ json: candidate, end: i });
+        start = -1;
+      }
+    }
+  }
+  if (!matches.length) return null;
+  // Prend le dernier match
+  const last = matches[matches.length - 1];
+  try {
+    const parsed = JSON.parse(last.json);
+    const narrativeEnd = clean.lastIndexOf(last.json);
+    const narrative = clean.slice(0, narrativeEnd).trim();
+    return { data: parsed, narrative };
+  } catch { return null; }
+}
+
 async function generateNarrative(choiceText) {
   const zone = document.getElementById('narrative-zone');
   const choicesZone = document.getElementById('choices-zone');
@@ -874,7 +567,7 @@ async function generateNarrative(choiceText) {
         try {
           const evt = JSON.parse(data);
           if (evt.type === 'content_block_delta' && evt.delta?.type === 'text_delta') {
-            const chunk = evt.delta.text.replace(/[^\x20-\x7E\u00C0-\u024F\u2019\u2018\u201C\u201D\n]/g, '');
+            const chunk = evt.delta.text;
             fullText += chunk;
             zone.insertBefore(document.createTextNode(chunk), cursor);
           }
@@ -893,16 +586,20 @@ async function generateNarrative(choiceText) {
 }
 
 function parseAndApplyResponse(text) {
-  const jsonMatch = text.match(/\{[\s\S]*"choices"[\s\S]*\}/);
-  if (!jsonMatch) {
+  const result = extraireJSON(text);
+
+  if (!result) {
+    // Fallback : affiche le texte brut et des choix génériques
+    document.getElementById('narrative-zone').textContent = text.replace(/```[^`]*```/g, '').trim();
     renderChoices(['Continuer', 'Prendre du recul', 'Chercher des informations', 'Passer du temps libre']);
     return;
   }
-  let data;
-  try { data = JSON.parse(jsonMatch[0]); } catch { return; }
-  const narrativeText = text.replace(/\{[\s\S]*"choices"[\s\S]*\}/, '').trim();
-  const zone = document.getElementById('narrative-zone');
-  zone.textContent = narrativeText;
+
+  const { data, narrative } = result;
+
+  // Affiche la narration propre (sans le JSON)
+  document.getElementById('narrative-zone').textContent = narrative;
+
   if (data.stats) {
     const s = data.stats;
     if (s.capital !== undefined) G.capital = s.capital;
@@ -913,19 +610,26 @@ function parseAndApplyResponse(text) {
     if (s.reputation !== undefined) G.reputation = Math.max(0, Math.min(100, s.reputation));
     if (s.reseau !== undefined) G.reseau = Math.max(0, Math.min(100, s.reseau));
     if (s.dettes !== undefined) G.dettes = s.dettes;
-    if (s.scoreCredit !== undefined) G.scoreCredit = s.scoreCredit;
-    if (s.newAsset) G.assets.push(s.newAsset);
-    if (s.removeAsset) G.assets = G.assets.filter(a => a !== s.removeAsset);
+    if (s.scoreCredit !== undefined && s.scoreCredit !== null) G.scoreCredit = s.scoreCredit;
+    if (s.newAsset && s.newAsset !== 'null' && s.newAsset !== null) G.assets.push(s.newAsset);
+    if (s.removeAsset && s.removeAsset !== 'null' && s.removeAsset !== null) G.assets = G.assets.filter(a => a !== s.removeAsset);
     if (s.weeksAdvanced) advanceWeeks(s.weeksAdvanced);
     else if (s.monthsAdvanced) advanceTime(s.monthsAdvanced);
-    if (s.city) G.city = s.city;
+    if (s.city && s.city !== 'null' && s.city !== null) G.city = s.city;
   }
+
   updateHUD();
   G.conversation.push({ role: 'assistant', content: text });
   if (G.conversation.length > 30) G.conversation = G.conversation.slice(-30);
-  G.history.push({ text: narrativeText.slice(0, 200), age: G.age, year: G.year });
+  G.history.push({ text: narrative.slice(0, 200), age: G.age, year: G.year });
   if (G.history.length > 15) G.history.shift();
-  if (data.choices && data.choices.length) renderChoices(data.choices);
+
+  if (data.choices && data.choices.length) {
+    renderChoices(data.choices);
+  } else {
+    renderChoices(['Continuer', 'Prendre du recul', 'Chercher des informations', 'Passer du temps libre']);
+  }
+
   sauvegarderPartie();
   window.scrollTo(0, 0);
 }
@@ -985,14 +689,19 @@ RÈGLES ABSOLUES :
 
 MOTEUR LITTÉRAIRE : Précision financière de Michael Lewis, dimension sociale de Tom Wolfe, ambition d'Ayn Rand.
 
-LES 4 CHOIX sont TOUJOURS des micro-décisions chirurgicales, jamais des directions générales. Exemples :
-- Casino : "Miser 5 000$ sur le rouge, numéro 17" / "Doubler la mise sur cette main"
-- Immo : "Offrir 850 000$ comptant, fermeture en 10 jours" / "Demander au vendeur de financer 20% à 4%"
-- Trading : "Vendre 50% de la position, sécuriser le gain" / "Placer un stop-loss à -8% et laisser courir"
+LES 4 CHOIX sont TOUJOURS des micro-décisions chirurgicales, jamais des directions générales.
 
-FORMAT DE RÉPONSE OBLIGATOIRE :
-Texte narratif (3-5 paragraphes vivants et précis), puis TOUJOURS sur une seule ligne :
-{"choices":["Choix 1 précis","Choix 2 précis","Choix 3 précis","Choix 4 précis"],"stats":{"capital":NOUVEAU_CAPITAL,"income":NOUVEAU_REVENU_MENSUEL,"wealth":NOUVEAU_PATRIMOINE,"sante":NOUVELLE_SANTE,"bonheur":NOUVEAU_BONHEUR,"reputation":NOUVELLE_REPUTATION,"reseau":NOUVEAU_RESEAU,"dettes":NOUVELLES_DETTES,"scoreCredit":NOUVEAU_SCORE_CREDIT_OU_null,"weeksAdvanced":SEMAINES_ECOULEES,"city":NOUVELLE_VILLE_OU_null,"newAsset":"NOM_ACTIF_ACQUIS_OU_null","removeAsset":"NOM_ACTIF_VENDU_OU_null"}}`;
+FORMAT DE RÉPONSE — RÈGLE ABSOLUE :
+Texte narratif (3-5 paragraphes vivants et précis), puis EXACTEMENT cet objet JSON sur une seule ligne, sans balises markdown, sans texte avant ou après le JSON :
+
+{"choices":["Choix 1 précis","Choix 2 précis","Choix 3 précis","Choix 4 précis"],"stats":{"capital":NOMBRE,"income":NOMBRE,"wealth":NOMBRE,"sante":NOMBRE,"bonheur":NOMBRE,"reputation":NOMBRE,"reseau":NOMBRE,"dettes":NOMBRE,"scoreCredit":NOMBRE,"weeksAdvanced":NOMBRE,"city":null,"newAsset":null,"removeAsset":null}}
+
+INTERDICTIONS STRICTES :
+- Ne JAMAIS entourer le JSON de balises \`\`\`json ou \`\`\`
+- Ne JAMAIS mettre de texte après le JSON
+- Ne JAMAIS omettre le champ "choices" avec exactement 4 éléments
+- Ne JAMAIS mettre le JSON avant la narration
+- Toujours mettre null (pas "null") pour les champs non utilisés`;
 }
 
 function buildMessages(choiceText) {
